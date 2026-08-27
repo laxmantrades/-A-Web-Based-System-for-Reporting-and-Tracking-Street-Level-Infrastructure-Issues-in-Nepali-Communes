@@ -1,0 +1,19 @@
+# Dependencies
+**/node_modules/
+
+# Build output
+client/dist/
+
+# Environment files
+**/.env
+
+# Logs / OS
+*.log
+.DS_Store
+
+
+# Docker (kept local, not committed)
+**/Dockerfile
+**/.dockerignore
+docker-compose.yml
+docker-compose.*.yml

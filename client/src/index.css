@@ -1,0 +1,49 @@
+/* -------------------------------------------------------------------------- */
+/*  Global stylesheet                                                          */
+/*                                                                            */
+/*  The three @tailwind lines below are placeholders that Tailwind replaces    */
+/*  at build time with its generated CSS:                                      */
+/*    - base:       sensible cross-browser resets                              */
+/*    - components: reusable class groups (we define a few in @layer below)    */
+/*    - utilities:  the single-purpose classes like `flex`, `p-4`, `text-lg`   */
+/* -------------------------------------------------------------------------- */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    /* Smooth scroll when the navbar anchor links jump to a section. */
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white text-ink font-sans antialiased;
+  }
+}
+
+@layer components {
+  /*
+   * `.btn-primary` / `.btn-ghost` are small component classes so we do not
+   * repeat the same long list of utilities on every button in the page.
+   */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-brand-600
+           px-5 py-3 text-sm font-semibold text-white transition-colors
+           hover:bg-brand-700 focus:outline-none focus-visible:ring-2
+           focus-visible:ring-brand-600 focus-visible:ring-offset-2;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border
+           border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-ink
+           transition-colors hover:bg-slate-50 focus:outline-none
+           focus-visible:ring-2 focus-visible:ring-brand-600
+           focus-visible:ring-offset-2;
+  }
+
+  /* Consistent max width + horizontal padding for every section. */
+  .section-shell {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+}
