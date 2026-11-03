@@ -4,18 +4,19 @@ import { BrowserRouter } from 'react-router-dom'
 
 import './index.css'
 import App from './App.jsx'
+import ToastProvider from './components/ToastProvider.jsx'
 
 /*
- * Entry point. React attaches itself to <div id="root"> from index.html.
- *
- * - <StrictMode> is a dev-only helper that surfaces unsafe patterns early.
- * - <BrowserRouter> gives us client-side routing. We only have one page today,
- *   but wiring it now means adding /report and /track later is a one-line change.
+ * Starts the React app inside <div id="root">.
+ * StrictMode: dev-only warnings. BrowserRouter: page routing.
+ * ToastProvider is on top so toasts stay when changing page.
  */
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-      <App />
+      <ToastProvider>
+        <App />
+      </ToastProvider>
     </BrowserRouter>
   </StrictMode>,
 )

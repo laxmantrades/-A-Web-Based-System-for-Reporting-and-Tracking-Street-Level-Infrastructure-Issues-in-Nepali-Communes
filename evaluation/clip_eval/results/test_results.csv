@@ -1,0 +1,123 @@
+filename,set,true_label,spam_type,issue_type,score,result,reason,predicted_spam_type,classifier_version
+genuine/drain_01.jpg,test,genuine,,drain,0.9735,Looks genuine,,,clip-spam-v3
+genuine/drain_02.jpg,test,genuine,,drain,0.9992,Looks genuine,,,clip-spam-v3
+genuine/drain_05.jpg,test,genuine,,drain,0.9999,Looks genuine,,,clip-spam-v3
+genuine/drain_06.jpg,test,genuine,,drain,0.9538,Looks genuine,,,clip-spam-v3
+genuine/drain_11.jpg,test,genuine,,drain,0.9978,Looks genuine,,,clip-spam-v3
+genuine/drain_12.jpg,test,genuine,,drain,0.9777,Looks genuine,,,clip-spam-v3
+genuine/drain_14.jpg,test,genuine,,drain,0.9935,Looks genuine,,,clip-spam-v3
+genuine/drain_15.jpg,test,genuine,,drain,0.9942,Looks genuine,,,clip-spam-v3
+genuine/drain_17.jpg,test,genuine,,drain,0.9963,Looks genuine,,,clip-spam-v3
+genuine/footpath_01.jpg,test,genuine,,footpath,0.9993,Looks genuine,,,clip-spam-v3
+genuine/footpath_02.jpg,test,genuine,,footpath,0.9874,Looks genuine,,,clip-spam-v3
+genuine/footpath_05.jpg,test,genuine,,footpath,1.0,Looks genuine,,,clip-spam-v3
+genuine/footpath_06.jpg,test,genuine,,footpath,0.9957,Looks genuine,,,clip-spam-v3
+genuine/footpath_09.jpg,test,genuine,,footpath,0.9995,Looks genuine,,,clip-spam-v3
+genuine/footpath_10.jpg,test,genuine,,footpath,1.0,Looks genuine,,,clip-spam-v3
+genuine/footpath_12.jpg,test,genuine,,footpath,0.865,Looks genuine,,,clip-spam-v3
+genuine/footpath_13.jpg,test,genuine,,footpath,0.9991,Looks genuine,,,clip-spam-v3
+genuine/footpath_15.jpg,test,genuine,,footpath,0.9993,Looks genuine,,,clip-spam-v3
+genuine/pothole_01.jpg,test,genuine,,pothole,0.999,Looks genuine,,,clip-spam-v3
+genuine/pothole_02.jpg,test,genuine,,pothole,0.9812,Looks genuine,,,clip-spam-v3
+genuine/pothole_04.jpg,test,genuine,,pothole,0.9999,Looks genuine,,,clip-spam-v3
+genuine/pothole_05.jpg,test,genuine,,pothole,1.0,Looks genuine,,,clip-spam-v3
+genuine/pothole_07.jpg,test,genuine,,pothole,1.0,Looks genuine,,,clip-spam-v3
+genuine/pothole_08.jpg,test,genuine,,pothole,0.9995,Looks genuine,,,clip-spam-v3
+genuine/pothole_10.jpg,test,genuine,,pothole,1.0,Looks genuine,,,clip-spam-v3
+genuine/pothole_11.jpg,test,genuine,,pothole,1.0,Looks genuine,,,clip-spam-v3
+genuine/pothole_12.jpg,test,genuine,,pothole,0.9999,Looks genuine,,,clip-spam-v3
+genuine/road_marking_01.jpg,test,genuine,,road_marking,0.9961,Looks genuine,,,clip-spam-v3
+genuine/road_marking_02.jpg,test,genuine,,road_marking,0.9983,Looks genuine,,,clip-spam-v3
+genuine/road_marking_04.jpg,test,genuine,,road_marking,0.9967,Looks genuine,,,clip-spam-v3
+genuine/road_marking_06.jpg,test,genuine,,road_marking,0.9995,Looks genuine,,,clip-spam-v3
+genuine/road_marking_07.jpg,test,genuine,,road_marking,0.9859,Looks genuine,,,clip-spam-v3
+genuine/road_marking_08.jpg,test,genuine,,road_marking,0.9998,Looks genuine,,,clip-spam-v3
+genuine/road_marking_09.jpg,test,genuine,,road_marking,0.994,Looks genuine,,,clip-spam-v3
+genuine/road_marking_15.jpg,test,genuine,,road_marking,0.8619,Looks genuine,,,clip-spam-v3
+genuine/road_marking_16.jpg,test,genuine,,road_marking,1.0,Looks genuine,,,clip-spam-v3
+genuine/road_sign_03.jpg,test,genuine,,road_sign,0.8136,Looks genuine,,,clip-spam-v3
+genuine/road_sign_04.jpg,test,genuine,,road_sign,0.9994,Looks genuine,,,clip-spam-v3
+genuine/road_sign_05.jpg,test,genuine,,road_sign,0.9725,Looks genuine,,,clip-spam-v3
+genuine/road_sign_06.jpg,test,genuine,,road_sign,0.9999,Looks genuine,,,clip-spam-v3
+genuine/road_sign_07.jpg,test,genuine,,road_sign,0.9998,Looks genuine,,,clip-spam-v3
+genuine/road_sign_08.jpg,test,genuine,,road_sign,0.9998,Looks genuine,,,clip-spam-v3
+genuine/road_sign_09.jpg,test,genuine,,road_sign,0.9941,Looks genuine,,,clip-spam-v3
+genuine/road_sign_10.jpg,test,genuine,,road_sign,0.9998,Looks genuine,,,clip-spam-v3
+genuine/road_sign_12.jpg,test,genuine,,road_sign,0.9999,Looks genuine,,,clip-spam-v3
+genuine/streetlight_01.jpg,test,genuine,,streetlight,0.9907,Looks genuine,,,clip-spam-v3
+genuine/streetlight_02.jpg,test,genuine,,streetlight,0.9992,Looks genuine,,,clip-spam-v3
+genuine/streetlight_03.jpg,test,genuine,,streetlight,0.9714,Looks genuine,,,clip-spam-v3
+genuine/streetlight_04.jpg,test,genuine,,streetlight,0.9928,Looks genuine,,,clip-spam-v3
+genuine/streetlight_05.jpg,test,genuine,,streetlight,0.9969,Looks genuine,,,clip-spam-v3
+genuine/streetlight_06.jpg,test,genuine,,streetlight,0.999,Looks genuine,,,clip-spam-v3
+genuine/streetlight_07.jpg,test,genuine,,streetlight,0.9578,Looks genuine,,,clip-spam-v3
+genuine/streetlight_10.jpg,test,genuine,,streetlight,0.9989,Looks genuine,,,clip-spam-v3
+genuine/streetlight_11.jpg,test,genuine,,streetlight,0.7264,Looks genuine,,,clip-spam-v3
+spam/animal/animal_01.jpg,test,spam,animal,,0.0003,Likely spam,Looks like an animal,animal,clip-spam-v3
+spam/animal/animal_02.jpg,test,spam,animal,,0.2402,Likely spam,Looks like a landscape,landscape,clip-spam-v3
+spam/animal/animal_05.jpg,test,spam,animal,,0.0007,Likely spam,Looks like an animal,animal,clip-spam-v3
+spam/animal/animal_06.jpg,test,spam,animal,,0.0005,Likely spam,Looks like an animal,animal,clip-spam-v3
+spam/animal/animal_07.jpg,test,spam,animal,,0.2525,Likely spam,Looks like an animal,animal,clip-spam-v3
+spam/blank/blank_02.jpg,test,spam,blank,,0.0506,Likely spam,Looks like a selfie,selfie,clip-spam-v3
+spam/blank/blank_03.jpg,test,spam,blank,,0.0286,Likely spam,Image is blank or too blurry,blank,clip-spam-v3
+spam/blank/blank_04.jpg,test,spam,blank,,0.1189,Likely spam,Looks like an indoor room,indoor,clip-spam-v3
+spam/blank/blank_06.jpg,test,spam,blank,,0.0187,Likely spam,Looks like a document,document,clip-spam-v3
+spam/blank/blank_07.jpg,test,spam,blank,,0.162,Likely spam,Looks like a selfie,selfie,clip-spam-v3
+spam/chart/chart_11.jpg,test,spam,chart,,0.0,Likely spam,Looks like a chart,chart,clip-spam-v3
+spam/chart/chart_author_01.png,test,spam,chart,,0.0,Likely spam,Looks like a chart,chart,clip-spam-v3
+spam/chart/chart_author_02.png,test,spam,chart,,0.0,Likely spam,Looks like a chart,chart,clip-spam-v3
+spam/chart/chart_author_03.jpg,test,spam,chart,,0.0,Likely spam,Looks like a chart,chart,clip-spam-v3
+spam/chart/chart_author_04.png,test,spam,chart,,0.0,Likely spam,Looks like a chart,chart,clip-spam-v3
+spam/document/document_02.jpg,test,spam,document,,0.001,Likely spam,Looks like a document,document,clip-spam-v3
+spam/document/document_03.jpg,test,spam,document,,0.0026,Likely spam,Looks like a document,document,clip-spam-v3
+spam/document/document_04.jpg,test,spam,document,,0.0005,Likely spam,Looks like a document,document,clip-spam-v3
+spam/document/document_05.jpg,test,spam,document,,0.0,Likely spam,Looks like a document,document,clip-spam-v3
+spam/document/document_07.jpg,test,spam,document,,0.0,Likely spam,Looks like a document,document,clip-spam-v3
+spam/food/food_01.jpg,test,spam,food,,0.0,Likely spam,Looks like food,food,clip-spam-v3
+spam/food/food_02.jpg,test,spam,food,,0.0002,Likely spam,Looks like food,food,clip-spam-v3
+spam/food/food_03.jpg,test,spam,food,,0.0001,Likely spam,Looks like food,food,clip-spam-v3
+spam/food/food_04.jpg,test,spam,food,,0.0001,Likely spam,Looks like food,food,clip-spam-v3
+spam/food/food_06.jpg,test,spam,food,,0.0005,Likely spam,Looks like food,food,clip-spam-v3
+spam/furniture/furniture_01.jpg,test,spam,furniture,,0.0,Likely spam,Looks like furniture,furniture,clip-spam-v3
+spam/furniture/furniture_03.jpg,test,spam,furniture,,0.0001,Likely spam,Looks like an indoor room,indoor,clip-spam-v3
+spam/furniture/furniture_04.jpg,test,spam,furniture,,0.0018,Likely spam,Looks like an indoor room,indoor,clip-spam-v3
+spam/furniture/furniture_05.jpg,test,spam,furniture,,0.0,Likely spam,Looks like furniture,furniture,clip-spam-v3
+spam/furniture/furniture_07.jpg,test,spam,furniture,,0.0009,Likely spam,Looks like an indoor room,indoor,clip-spam-v3
+spam/group/group_01.jpg,test,spam,group,,0.0612,Likely spam,Looks like a photo of people,group,clip-spam-v3
+spam/group/group_02.jpg,test,spam,group,,0.0,Likely spam,Looks like a photo of people,group,clip-spam-v3
+spam/group/group_06.jpg,test,spam,group,,0.0057,Likely spam,Looks like a photo of people,group,clip-spam-v3
+spam/group/group_07.jpg,test,spam,group,,0.0001,Likely spam,Looks like a photo of people,group,clip-spam-v3
+spam/group/group_09.jpg,test,spam,group,,0.0005,Likely spam,Looks like a photo of people,group,clip-spam-v3
+spam/indoor/indoor_03.jpg,test,spam,indoor,,0.0268,Likely spam,Looks like an indoor room,indoor,clip-spam-v3
+spam/indoor/indoor_04.jpg,test,spam,indoor,,0.0049,Likely spam,Looks like an indoor room,indoor,clip-spam-v3
+spam/indoor/indoor_05.jpg,test,spam,indoor,,0.0,Likely spam,Looks like an indoor room,indoor,clip-spam-v3
+spam/indoor/indoor_07.jpg,test,spam,indoor,,0.0046,Likely spam,Looks like an indoor room,indoor,clip-spam-v3
+spam/indoor/indoor_08.jpg,test,spam,indoor,,0.0,Likely spam,Looks like an indoor room,indoor,clip-spam-v3
+spam/landscape/landscape_02.jpg,test,spam,landscape,,0.0166,Likely spam,Looks like a landscape,landscape,clip-spam-v3
+spam/landscape/landscape_04.jpg,test,spam,landscape,,0.0659,Likely spam,Looks like a landscape,landscape,clip-spam-v3
+spam/landscape/landscape_05.jpg,test,spam,landscape,,0.2228,Likely spam,Looks like a landscape,landscape,clip-spam-v3
+spam/landscape/landscape_06.jpg,test,spam,landscape,,0.4267,Unsure,Looks like a landscape,landscape,clip-spam-v3
+spam/landscape/landscape_07.jpg,test,spam,landscape,,0.0718,Likely spam,Looks like a landscape,landscape,clip-spam-v3
+spam/meme/meme_01.jpg,test,spam,meme,,0.002,Likely spam,Looks like a meme or drawing,meme,clip-spam-v3
+spam/meme/meme_02.jpg,test,spam,meme,,0.0023,Likely spam,Looks like a meme or drawing,meme,clip-spam-v3
+spam/meme/meme_03.png,test,spam,meme,,0.0005,Likely spam,Looks like a photo of people,group,clip-spam-v3
+spam/meme/meme_06.png,test,spam,meme,,0.0021,Likely spam,Looks like a meme or drawing,meme,clip-spam-v3
+spam/meme/meme_07.jpg,test,spam,meme,,0.0018,Likely spam,Looks like a document,document,clip-spam-v3
+spam/screenshot/screenshot_02.png,test,spam,screenshot,,0.0,Likely spam,Looks like a screenshot,screenshot,clip-spam-v3
+spam/screenshot/screenshot_04.png,test,spam,screenshot,,0.0,Likely spam,Looks like a screenshot,screenshot,clip-spam-v3
+spam/screenshot/screenshot_05.png,test,spam,screenshot,,0.0,Likely spam,Looks like a document,document,clip-spam-v3
+spam/screenshot/screenshot_08.png,test,spam,screenshot,,0.0,Likely spam,Looks like a screenshot,screenshot,clip-spam-v3
+spam/screenshot/screenshot_10.png,test,spam,screenshot,,0.0,Likely spam,Looks like a screenshot,screenshot,clip-spam-v3
+spam/selfie/selfie_02.jpg,test,spam,selfie,,0.0002,Likely spam,Looks like a selfie,selfie,clip-spam-v3
+spam/selfie/selfie_04.jpg,test,spam,selfie,,0.0002,Likely spam,Looks like a selfie,selfie,clip-spam-v3
+spam/selfie/selfie_06.jpg,test,spam,selfie,,0.0009,Likely spam,Looks like a selfie,selfie,clip-spam-v3
+spam/selfie/selfie_07.jpg,test,spam,selfie,,0.0007,Likely spam,Looks like a selfie,selfie,clip-spam-v3
+spam/selfie/selfie_11.jpg,test,spam,selfie,,0.0001,Likely spam,Looks like a selfie,selfie,clip-spam-v3
+unclear/unclear_02.jpg,test,unclear,,through_window,0.2709,Likely spam,Looks like a landscape,landscape,clip-spam-v3
+unclear/unclear_04.jpg,test,unclear,,construction,0.9993,Looks genuine,,,clip-spam-v3
+unclear/unclear_05.jpg,test,unclear,,puddle_reflection,0.9926,Looks genuine,,,clip-spam-v3
+unclear/unclear_06.jpg,test,unclear,,puddle_reflection,0.9598,Looks genuine,,,clip-spam-v3
+unclear/unclear_07.jpg,test,unclear,,vehicle_focus,0.7934,Looks genuine,,,clip-spam-v3
+unclear/unclear_09.jpg,test,unclear,,map_or_sign_board,0.8998,Looks genuine,,,clip-spam-v3
+unclear/unclear_10.jpg,test,unclear,,crowd_street,0.999,Looks genuine,,,clip-spam-v3
+unclear/unclear_11.jpg,test,unclear,,vehicle_focus,0.9994,Looks genuine,,,clip-spam-v3

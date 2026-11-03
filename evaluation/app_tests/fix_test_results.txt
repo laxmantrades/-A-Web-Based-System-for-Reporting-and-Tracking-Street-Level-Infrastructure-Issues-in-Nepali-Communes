@@ -1,0 +1,703 @@
+
+> merosadak-server@0.1.0 test
+> NODE_OPTIONS=--experimental-vm-modules jest --runInBand
+
+(node:45190) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+[0mPOST /api/reports [32m201[0m 22.313 ms - 55[0m
+[0mPOST /api/reports [32m201[0m 3.435 ms - 55[0m
+[0mPOST /api/reports [33m400[0m 0.638 ms - 78[0m
+[0mPOST /api/reports [33m400[0m 0.527 ms - 47[0m
+[0mPOST /api/reports [32m201[0m 4.480 ms - 55[0m
+[0mPOST /api/reports [32m201[0m 3.190 ms - 55[0m
+[0mPOST /api/reports [32m201[0m 5.514 ms - 55[0m
+[0mPOST /api/reports [32m201[0m 6.315 ms - 55[0m
+PASS tests/citizen.test.js (21.574 s)
+  ● Console
+
+    console.error
+      [classifier] attempt 1 failed for #1: The operation was aborted due to timeout
+
+      130 |       }))
+      131 |     } catch (err) {
+    > 132 |       console.error(`[classifier] attempt 1 failed for #${report.referenceId}:`, err.message)
+          |               ^
+      133 |       await delay(RETRY_DELAY_MS)
+      134 |       try {
+      135 |         ;({ result, spamType, score } = await callClassifierOnce({
+
+      at runClassification (src/lib/classifier.js:132:15)
+
+    console.error
+      [classifier] retry failed for #1: The operation was aborted due to timeout
+
+      139 |         }))
+      140 |       } catch (retryErr) {
+    > 141 |         console.error(
+          |                 ^
+      142 |           `[classifier] retry failed for #${report.referenceId}:`,
+      143 |           retryErr.message,
+      144 |         )
+
+      at runClassification (src/lib/classifier.js:141:17)
+
+    console.error
+      [classifier] attempt 1 failed for #1: classifier service returned 500
+
+      130 |       }))
+      131 |     } catch (err) {
+    > 132 |       console.error(`[classifier] attempt 1 failed for #${report.referenceId}:`, err.message)
+          |               ^
+      133 |       await delay(RETRY_DELAY_MS)
+      134 |       try {
+      135 |         ;({ result, spamType, score } = await callClassifierOnce({
+
+      at runClassification (src/lib/classifier.js:132:15)
+
+    console.error
+      [classifier] retry failed for #1: classifier service returned 500
+
+      139 |         }))
+      140 |       } catch (retryErr) {
+    > 141 |         console.error(
+          |                 ^
+      142 |           `[classifier] retry failed for #${report.referenceId}:`,
+      143 |           retryErr.message,
+      144 |         )
+
+      at runClassification (src/lib/classifier.js:141:17)
+
+    console.error
+      [classifier] attempt 1 failed for #2: fetch failed
+
+      130 |       }))
+      131 |     } catch (err) {
+    > 132 |       console.error(`[classifier] attempt 1 failed for #${report.referenceId}:`, err.message)
+          |               ^
+      133 |       await delay(RETRY_DELAY_MS)
+      134 |       try {
+      135 |         ;({ result, spamType, score } = await callClassifierOnce({
+
+      at runClassification (src/lib/classifier.js:132:15)
+
+    console.error
+      [classifier] retry failed for #2: fetch failed
+
+      139 |         }))
+      140 |       } catch (retryErr) {
+    > 141 |         console.error(
+          |                 ^
+      142 |           `[classifier] retry failed for #${report.referenceId}:`,
+      143 |           retryErr.message,
+      144 |         )
+
+      at runClassification (src/lib/classifier.js:141:17)
+
+[0mPOST /api/officer/login [32m200[0m 292.683 ms - 306[0m
+[0mGET /api/officer/me [32m200[0m 2.791 ms - 284[0m
+[0mPOST /api/officer/login [33m401[0m 286.193 ms - 40[0m
+[0mGET /api/officer/me [33m401[0m 0.210 ms - 59[0m
+[0mPOST /api/officer/login [33m401[0m 285.803 ms - 40[0m
+[0mPOST /api/officer/login [33m401[0m 281.914 ms - 40[0m
+[0mPOST /api/officer/login [33m401[0m 282.720 ms - 40[0m
+[0mPOST /api/officer/login [33m401[0m 282.238 ms - 40[0m
+[0mPOST /api/officer/login [33m401[0m 282.206 ms - 71[0m
+[0mPOST /api/officer/login [33m401[0m 1.422 ms - 71[0m
+[0mPOST /api/officer/login [33m401[0m 286.519 ms - 40[0m
+[0mPOST /api/officer/login [33m401[0m 281.217 ms - 40[0m
+[0mPOST /api/officer/login [33m401[0m 327.904 ms - 40[0m
+[0mPOST /api/officer/login [33m401[0m 289.585 ms - 40[0m
+[0mPOST /api/officer/login [33m401[0m 284.828 ms - 40[0m
+[0mPOST /api/officer/login [32m200[0m 283.387 ms - 306[0m
+[0mPOST /api/officer/login [33m401[0m 284.872 ms - 40[0m
+[0mPOST /api/officer/login [33m401[0m 291.135 ms - 40[0m
+[0mPOST /api/officer/login [33m401[0m 289.213 ms - 40[0m
+[0mPOST /api/officer/login [33m401[0m 285.888 ms - 40[0m
+[0mPOST /api/officer/login [32m200[0m 317.230 ms - 306[0m
+[0mPOST /api/officer/login [33m401[0m 291.467 ms - 40[0m
+[0mPOST /api/officer/login [33m401[0m 290.627 ms - 40[0m
+[0mPOST /api/officer/login [33m401[0m 1.406 ms - 40[0m
+[0mGET /api/officer/me [33m401[0m 0.125 ms - 59[0m
+[0mGET /api/officer/reports [33m401[0m 0.265 ms - 59[0m
+[0mGET /api/officer/analytics [33m401[0m 0.167 ms - 59[0m
+[0mGET /api/officer/admin/officers [33m401[0m 0.262 ms - 59[0m
+[0mPOST /api/officer/logout [33m401[0m 0.074 ms - 59[0m
+[0mGET /api/officer/me [33m401[0m 0.822 ms - 59[0m
+[0mGET /api/officer/reports [33m401[0m 0.519 ms - 59[0m
+[0mGET /api/officer/analytics [33m401[0m 0.486 ms - 59[0m
+[0mGET /api/officer/admin/officers [33m401[0m 0.752 ms - 59[0m
+[0mPOST /api/officer/logout [33m401[0m 0.571 ms - 59[0m
+[0mGET /api/officer/me [32m200[0m 1.539 ms - 262[0m
+[0mGET /api/officer/reports [32m200[0m 8.623 ms - 236[0m
+[0mGET /api/officer/me [33m401[0m 2.025 ms - 59[0m
+[0mGET /api/officer/reports [33m401[0m 0.707 ms - 59[0m
+[0mGET /api/officer/analytics [33m401[0m 1.222 ms - 59[0m
+[0mGET /api/officer/admin/officers [33m401[0m 0.940 ms - 59[0m
+[0mPOST /api/officer/logout [33m401[0m 1.486 ms - 59[0m
+[0mGET /api/officer/me [33m401[0m 2.331 ms - 59[0m
+[0mGET /api/officer/reports [33m401[0m 0.672 ms - 59[0m
+[0mPOST /api/officer/reports/6ae1e0e9dd0f3c57f92b62da/state [33m401[0m 0.194 ms - 59[0m
+[0mPOST /api/officer/reports/6ae1e0e9dd0f3c57f92b62da/priority [33m401[0m 0.208 ms - 59[0m
+[0mPOST /api/officer/reports/6ae1e0e9dd0f3c57f92b62da/reject [33m401[0m 0.388 ms - 59[0m
+[0mPOST /api/officer/reports/6ae1e0e9dd0f3c57f92b62da/notes [33m401[0m 0.110 ms - 59[0m
+[0mPOST /api/officer/reports/6ae1e0e9dd0f3c57f92b62da/photo/hide [33m401[0m 0.079 ms - 59[0m
+[0mPOST /api/officer/reports/6ae1e0e9dd0f3c57f92b62da/redact [33m401[0m 0.073 ms - 59[0m
+[0mDELETE /api/officer/reports/6ae1e0e9dd0f3c57f92b62da/redact [33m401[0m 0.076 ms - 59[0m
+[0mPOST /api/officer/reports/6ae1e0e9dd0f3c57f92b62da/reclassify [33m401[0m 0.082 ms - 59[0m
+[0mGET /api/reports [33m401[0m 0.096 ms - 59[0m
+[0mGET /api/reports/6ae1e0e9dd0f3c57f92b62da [33m401[0m 0.215 ms - 59[0m
+[0mGET /api/officer/reports/6ae1e0e9dd0f3c57f92b62da [33m401[0m 0.113 ms - 59[0m
+[0mGET /api/officer/reports/6ae1e0e9dd0f3c57f92b62da/photo/original [33m401[0m 0.091 ms - 59[0m
+[0mPOST /api/officer/reports/6ae1e0e9dd0f3c57f92b62da/state [33m401[0m 0.887 ms - 59[0m
+[0mPOST /api/officer/reports/6ae1e0e9dd0f3c57f92b62da/priority [33m401[0m 0.549 ms - 59[0m
+[0mPOST /api/officer/reports/6ae1e0e9dd0f3c57f92b62da/reject [33m401[0m 0.508 ms - 59[0m
+[0mPOST /api/officer/reports/6ae1e0e9dd0f3c57f92b62da/notes [33m401[0m 0.608 ms - 59[0m
+[0mPOST /api/officer/reports/6ae1e0e9dd0f3c57f92b62da/photo/hide [33m401[0m 1.281 ms - 59[0m
+[0mPOST /api/officer/reports/6ae1e0e9dd0f3c57f92b62da/redact [33m401[0m 0.845 ms - 59[0m
+[0mDELETE /api/officer/reports/6ae1e0e9dd0f3c57f92b62da/redact [33m401[0m 0.527 ms - 59[0m
+[0mPOST /api/officer/reports/6ae1e0e9dd0f3c57f92b62da/reclassify [33m401[0m 0.513 ms - 59[0m
+[0mGET /api/reports [33m401[0m 0.693 ms - 59[0m
+[0mGET /api/reports/6ae1e0e9dd0f3c57f92b62da [33m401[0m 1.108 ms - 59[0m
+[0mGET /api/officer/reports/6ae1e0e9dd0f3c57f92b62da [33m401[0m 0.673 ms - 59[0m
+[0mGET /api/officer/reports/6ae1e0e9dd0f3c57f92b62da/photo/original [33m401[0m 0.519 ms - 59[0m
+[0mPOST /api/officer/admin/officers [32m201[0m 7.832 ms - 279[0m
+[0mPOST /api/officer/admin/officers [33m403[0m 1.636 ms - 50[0m
+[0mPOST /api/officer/admin/officers [33m403[0m 1.800 ms - 50[0m
+[0mPOST /api/officer/admin/officers [33m401[0m 0.118 ms - 59[0m
+PASS tests/auth.test.js (11.205 s)
+  ● Console
+
+    console.warn
+      [auth] signin_success ip=10.20.0.2 officer=6ae1e0e1dd0f3c57f92b6244
+
+      53 |     `${entry.emailAttempted ? `email=${entry.emailAttempted} ` : ''}` +
+      54 |     `${entry.reason ? `reason=${entry.reason}` : ''}`
+    > 55 |   console.warn(line.trimEnd())
+         |           ^
+      56 |
+      57 |   try {
+      58 |     await AuthAuditLog.create(entry)
+
+      at recordAuthEvent (src/models/AuthAuditLog.js:55:11)
+      at src/controllers/officerController.js:145:9
+
+    console.warn
+      [auth] signin_failed ip=10.20.0.3 email=officer-291bdb@ward.test reason=wrong password
+
+      53 |     `${entry.emailAttempted ? `email=${entry.emailAttempted} ` : ''}` +
+      54 |     `${entry.reason ? `reason=${entry.reason}` : ''}`
+    > 55 |   console.warn(line.trimEnd())
+         |           ^
+      56 |
+      57 |   try {
+      58 |     await AuthAuditLog.create(entry)
+
+      at recordAuthEvent (src/models/AuthAuditLog.js:55:11)
+      at fail (src/controllers/officerController.js:101:11)
+      at src/controllers/officerController.js:133:11
+
+    console.warn
+      [auth] signin_failed ip=10.20.0.4 email=officer-874e2d@ward.test reason=wrong password
+
+      53 |     `${entry.emailAttempted ? `email=${entry.emailAttempted} ` : ''}` +
+      54 |     `${entry.reason ? `reason=${entry.reason}` : ''}`
+    > 55 |   console.warn(line.trimEnd())
+         |           ^
+      56 |
+      57 |   try {
+      58 |     await AuthAuditLog.create(entry)
+
+      at recordAuthEvent (src/models/AuthAuditLog.js:55:11)
+      at fail (src/controllers/officerController.js:101:11)
+      at src/controllers/officerController.js:133:11
+
+    console.warn
+      [auth] signin_failed ip=10.20.0.4 email=officer-874e2d@ward.test reason=wrong password
+
+      53 |     `${entry.emailAttempted ? `email=${entry.emailAttempted} ` : ''}` +
+      54 |     `${entry.reason ? `reason=${entry.reason}` : ''}`
+    > 55 |   console.warn(line.trimEnd())
+         |           ^
+      56 |
+      57 |   try {
+      58 |     await AuthAuditLog.create(entry)
+
+      at recordAuthEvent (src/models/AuthAuditLog.js:55:11)
+      at fail (src/controllers/officerController.js:101:11)
+      at src/controllers/officerController.js:133:11
+
+    console.warn
+      [auth] signin_failed ip=10.20.0.4 email=officer-874e2d@ward.test reason=wrong password
+
+      53 |     `${entry.emailAttempted ? `email=${entry.emailAttempted} ` : ''}` +
+      54 |     `${entry.reason ? `reason=${entry.reason}` : ''}`
+    > 55 |   console.warn(line.trimEnd())
+         |           ^
+      56 |
+      57 |   try {
+      58 |     await AuthAuditLog.create(entry)
+
+      at recordAuthEvent (src/models/AuthAuditLog.js:55:11)
+      at fail (src/controllers/officerController.js:101:11)
+      at src/controllers/officerController.js:133:11
+
+    console.warn
+      [auth] signin_failed ip=10.20.0.4 email=officer-874e2d@ward.test reason=wrong password
+
+      53 |     `${entry.emailAttempted ? `email=${entry.emailAttempted} ` : ''}` +
+      54 |     `${entry.reason ? `reason=${entry.reason}` : ''}`
+    > 55 |   console.warn(line.trimEnd())
+         |           ^
+      56 |
+      57 |   try {
+      58 |     await AuthAuditLog.create(entry)
+
+      at recordAuthEvent (src/models/AuthAuditLog.js:55:11)
+      at fail (src/controllers/officerController.js:101:11)
+      at src/controllers/officerController.js:133:11
+
+    console.warn
+      [auth] account_locked ip=10.20.0.4 officer=6ae1e0e2dd0f3c57f92b6256 email=officer-874e2d@ward.test reason=5 failed attempts
+
+      53 |     `${entry.emailAttempted ? `email=${entry.emailAttempted} ` : ''}` +
+      54 |     `${entry.reason ? `reason=${entry.reason}` : ''}`
+    > 55 |   console.warn(line.trimEnd())
+         |           ^
+      56 |
+      57 |   try {
+      58 |     await AuthAuditLog.create(entry)
+
+      at recordAuthEvent (src/models/AuthAuditLog.js:55:11)
+      at registerFailedAttempt (src/controllers/officerController.js:80:11)
+      at src/controllers/officerController.js:132:23
+
+    console.warn
+      [auth] signin_failed ip=10.20.0.4 email=officer-874e2d@ward.test reason=wrong password
+
+      53 |     `${entry.emailAttempted ? `email=${entry.emailAttempted} ` : ''}` +
+      54 |     `${entry.reason ? `reason=${entry.reason}` : ''}`
+    > 55 |   console.warn(line.trimEnd())
+         |           ^
+      56 |
+      57 |   try {
+      58 |     await AuthAuditLog.create(entry)
+
+      at recordAuthEvent (src/models/AuthAuditLog.js:55:11)
+      at fail (src/controllers/officerController.js:101:11)
+      at src/controllers/officerController.js:133:11
+
+    console.warn
+      [auth] signin_failed ip=10.20.0.4 email=officer-874e2d@ward.test reason=account locked
+
+      53 |     `${entry.emailAttempted ? `email=${entry.emailAttempted} ` : ''}` +
+      54 |     `${entry.reason ? `reason=${entry.reason}` : ''}`
+    > 55 |   console.warn(line.trimEnd())
+         |           ^
+      56 |
+      57 |   try {
+      58 |     await AuthAuditLog.create(entry)
+
+      at recordAuthEvent (src/models/AuthAuditLog.js:55:11)
+      at fail (src/controllers/officerController.js:101:11)
+      at src/controllers/officerController.js:120:11
+
+    console.warn
+      [auth] signin_failed ip=10.20.0.5 email=officer-dba01c@ward.test reason=wrong password
+
+      53 |     `${entry.emailAttempted ? `email=${entry.emailAttempted} ` : ''}` +
+      54 |     `${entry.reason ? `reason=${entry.reason}` : ''}`
+    > 55 |   console.warn(line.trimEnd())
+         |           ^
+      56 |
+      57 |   try {
+      58 |     await AuthAuditLog.create(entry)
+
+      at recordAuthEvent (src/models/AuthAuditLog.js:55:11)
+      at fail (src/controllers/officerController.js:101:11)
+      at src/controllers/officerController.js:133:11
+
+    console.warn
+      [auth] signin_failed ip=10.20.0.5 email=officer-dba01c@ward.test reason=wrong password
+
+      53 |     `${entry.emailAttempted ? `email=${entry.emailAttempted} ` : ''}` +
+      54 |     `${entry.reason ? `reason=${entry.reason}` : ''}`
+    > 55 |   console.warn(line.trimEnd())
+         |           ^
+      56 |
+      57 |   try {
+      58 |     await AuthAuditLog.create(entry)
+
+      at recordAuthEvent (src/models/AuthAuditLog.js:55:11)
+      at fail (src/controllers/officerController.js:101:11)
+      at src/controllers/officerController.js:133:11
+
+    console.warn
+      [auth] signin_failed ip=10.20.0.5 email=officer-dba01c@ward.test reason=wrong password
+
+      53 |     `${entry.emailAttempted ? `email=${entry.emailAttempted} ` : ''}` +
+      54 |     `${entry.reason ? `reason=${entry.reason}` : ''}`
+    > 55 |   console.warn(line.trimEnd())
+         |           ^
+      56 |
+      57 |   try {
+      58 |     await AuthAuditLog.create(entry)
+
+      at recordAuthEvent (src/models/AuthAuditLog.js:55:11)
+      at fail (src/controllers/officerController.js:101:11)
+      at src/controllers/officerController.js:133:11
+
+    console.warn
+      [auth] signin_failed ip=10.20.0.5 email=officer-dba01c@ward.test reason=wrong password
+
+      53 |     `${entry.emailAttempted ? `email=${entry.emailAttempted} ` : ''}` +
+      54 |     `${entry.reason ? `reason=${entry.reason}` : ''}`
+    > 55 |   console.warn(line.trimEnd())
+         |           ^
+      56 |
+      57 |   try {
+      58 |     await AuthAuditLog.create(entry)
+
+      at recordAuthEvent (src/models/AuthAuditLog.js:55:11)
+      at fail (src/controllers/officerController.js:101:11)
+      at src/controllers/officerController.js:133:11
+
+    console.warn
+      [auth] signin_failed ip=10.20.0.5 email=officer-dba01c@ward.test reason=wrong password
+
+      53 |     `${entry.emailAttempted ? `email=${entry.emailAttempted} ` : ''}` +
+      54 |     `${entry.reason ? `reason=${entry.reason}` : ''}`
+    > 55 |   console.warn(line.trimEnd())
+         |           ^
+      56 |
+      57 |   try {
+      58 |     await AuthAuditLog.create(entry)
+
+      at recordAuthEvent (src/models/AuthAuditLog.js:55:11)
+      at fail (src/controllers/officerController.js:101:11)
+      at src/controllers/officerController.js:133:11
+
+    console.warn
+      [auth] signin_success ip=10.20.0.5 officer=6ae1e0e4dd0f3c57f92b6275
+
+      53 |     `${entry.emailAttempted ? `email=${entry.emailAttempted} ` : ''}` +
+      54 |     `${entry.reason ? `reason=${entry.reason}` : ''}`
+    > 55 |   console.warn(line.trimEnd())
+         |           ^
+      56 |
+      57 |   try {
+      58 |     await AuthAuditLog.create(entry)
+
+      at recordAuthEvent (src/models/AuthAuditLog.js:55:11)
+      at src/controllers/officerController.js:145:9
+
+    console.warn
+      [auth] signin_failed ip=10.20.0.6 email=officer-695ab3@ward.test reason=wrong password
+
+      53 |     `${entry.emailAttempted ? `email=${entry.emailAttempted} ` : ''}` +
+      54 |     `${entry.reason ? `reason=${entry.reason}` : ''}`
+    > 55 |   console.warn(line.trimEnd())
+         |           ^
+      56 |
+      57 |   try {
+      58 |     await AuthAuditLog.create(entry)
+
+      at recordAuthEvent (src/models/AuthAuditLog.js:55:11)
+      at fail (src/controllers/officerController.js:101:11)
+      at src/controllers/officerController.js:133:11
+
+    console.warn
+      [auth] signin_failed ip=10.20.0.6 email=officer-695ab3@ward.test reason=wrong password
+
+      53 |     `${entry.emailAttempted ? `email=${entry.emailAttempted} ` : ''}` +
+      54 |     `${entry.reason ? `reason=${entry.reason}` : ''}`
+    > 55 |   console.warn(line.trimEnd())
+         |           ^
+      56 |
+      57 |   try {
+      58 |     await AuthAuditLog.create(entry)
+
+      at recordAuthEvent (src/models/AuthAuditLog.js:55:11)
+      at fail (src/controllers/officerController.js:101:11)
+      at src/controllers/officerController.js:133:11
+
+    console.warn
+      [auth] signin_failed ip=10.20.0.6 email=officer-695ab3@ward.test reason=wrong password
+
+      53 |     `${entry.emailAttempted ? `email=${entry.emailAttempted} ` : ''}` +
+      54 |     `${entry.reason ? `reason=${entry.reason}` : ''}`
+    > 55 |   console.warn(line.trimEnd())
+         |           ^
+      56 |
+      57 |   try {
+      58 |     await AuthAuditLog.create(entry)
+
+      at recordAuthEvent (src/models/AuthAuditLog.js:55:11)
+      at fail (src/controllers/officerController.js:101:11)
+      at src/controllers/officerController.js:133:11
+
+    console.warn
+      [auth] signin_failed ip=10.20.0.6 email=officer-695ab3@ward.test reason=wrong password
+
+      53 |     `${entry.emailAttempted ? `email=${entry.emailAttempted} ` : ''}` +
+      54 |     `${entry.reason ? `reason=${entry.reason}` : ''}`
+    > 55 |   console.warn(line.trimEnd())
+         |           ^
+      56 |
+      57 |   try {
+      58 |     await AuthAuditLog.create(entry)
+
+      at recordAuthEvent (src/models/AuthAuditLog.js:55:11)
+      at fail (src/controllers/officerController.js:101:11)
+      at src/controllers/officerController.js:133:11
+
+    console.warn
+      [auth] signin_success ip=10.20.0.6 officer=6ae1e0e6dd0f3c57f92b6294
+
+      53 |     `${entry.emailAttempted ? `email=${entry.emailAttempted} ` : ''}` +
+      54 |     `${entry.reason ? `reason=${entry.reason}` : ''}`
+    > 55 |   console.warn(line.trimEnd())
+         |           ^
+      56 |
+      57 |   try {
+      58 |     await AuthAuditLog.create(entry)
+
+      at recordAuthEvent (src/models/AuthAuditLog.js:55:11)
+      at src/controllers/officerController.js:145:9
+
+    console.warn
+      [auth] signin_failed ip=10.20.0.7 email=officer-c0bf16@ward.test reason=wrong password
+
+      53 |     `${entry.emailAttempted ? `email=${entry.emailAttempted} ` : ''}` +
+      54 |     `${entry.reason ? `reason=${entry.reason}` : ''}`
+    > 55 |   console.warn(line.trimEnd())
+         |           ^
+      56 |
+      57 |   try {
+      58 |     await AuthAuditLog.create(entry)
+
+      at recordAuthEvent (src/models/AuthAuditLog.js:55:11)
+      at fail (src/controllers/officerController.js:101:11)
+      at src/controllers/officerController.js:133:11
+
+    console.warn
+      [auth] signin_failed ip=10.20.0.7 email=officer-c0bf16@ward.test reason=wrong password
+
+      53 |     `${entry.emailAttempted ? `email=${entry.emailAttempted} ` : ''}` +
+      54 |     `${entry.reason ? `reason=${entry.reason}` : ''}`
+    > 55 |   console.warn(line.trimEnd())
+         |           ^
+      56 |
+      57 |   try {
+      58 |     await AuthAuditLog.create(entry)
+
+      at recordAuthEvent (src/models/AuthAuditLog.js:55:11)
+      at fail (src/controllers/officerController.js:101:11)
+      at src/controllers/officerController.js:133:11
+
+    console.warn
+      [auth] signin_failed ip=10.20.0.7 email=nobody@ward.test reason=no matching staff account
+
+      53 |     `${entry.emailAttempted ? `email=${entry.emailAttempted} ` : ''}` +
+      54 |     `${entry.reason ? `reason=${entry.reason}` : ''}`
+    > 55 |   console.warn(line.trimEnd())
+         |           ^
+      56 |
+      57 |   try {
+      58 |     await AuthAuditLog.create(entry)
+
+      at recordAuthEvent (src/models/AuthAuditLog.js:55:11)
+      at fail (src/controllers/officerController.js:101:11)
+      at src/controllers/officerController.js:114:11
+
+    console.warn
+      [auth] account_created ip=::ffff:127.0.0.1 officer=6ae1e0e9dd0f3c57f92b62f2 email=new.officer@ward.test reason=by admin-2ed9ad@ward.test (officer)
+
+      53 |     `${entry.emailAttempted ? `email=${entry.emailAttempted} ` : ''}` +
+      54 |     `${entry.reason ? `reason=${entry.reason}` : ''}`
+    > 55 |   console.warn(line.trimEnd())
+         |           ^
+      56 |
+      57 |   try {
+      58 |     await AuthAuditLog.create(entry)
+
+      at recordAuthEvent (src/models/AuthAuditLog.js:55:11)
+      at src/controllers/officerAdminController.js:132:9
+
+    console.warn
+      [auth] invite_sent ip=::ffff:127.0.0.1 officer=6ae1e0e9dd0f3c57f92b62f2 email=new.officer@ward.test reason=by admin-2ed9ad@ward.test
+
+      53 |     `${entry.emailAttempted ? `email=${entry.emailAttempted} ` : ''}` +
+      54 |     `${entry.reason ? `reason=${entry.reason}` : ''}`
+    > 55 |   console.warn(line.trimEnd())
+         |           ^
+      56 |
+      57 |   try {
+      58 |     await AuthAuditLog.create(entry)
+
+      at recordAuthEvent (src/models/AuthAuditLog.js:55:11)
+      at sendInvite (src/controllers/officerAdminController.js:59:9)
+      at src/controllers/officerAdminController.js:139:3
+
+[0mPOST /api/reports [32m201[0m 11.296 ms - 55[0m
+[0mPOST /api/reports [32m201[0m 3.630 ms - 55[0m
+[0mPOST /api/officer/reports/6ae1e0ecfe649e4631bc1c43/reclassify [32m200[0m 13.638 ms - 1542[0m
+[0mPOST /api/reports [32m201[0m 3.477 ms - 55[0m
+[0mGET /api/officer/reports [32m200[0m 6.925 ms - 521[0m
+[0mGET /api/officer/reports/6ae1e0ecfe649e4631bc1c5b [32m200[0m 3.759 ms - 983[0m
+[0mPOST /api/officer/reports/6ae1e0ecfe649e4631bc1c5b/state [32m200[0m 7.494 ms - 1575[0m
+[0mGET /api/officer/reports?tab=in_review [32m200[0m 2.995 ms - 524[0m
+[0mGET /api/reports/public [32m200[0m 4.308 ms - 355[0m
+[0mGET /api/reports/public/1 [32m200[0m 1.525 ms - 548[0m
+[0mPOST /api/reports/lookup [32m200[0m 1.358 ms - 567[0m
+[0mPOST /api/officer/reports/6ae1e0ecfe649e4631bc1c5b/reclassify [32m200[0m 9.149 ms - 1862[0m
+[0mPOST /api/reports [32m201[0m 2.817 ms - 55[0m
+[0mGET /api/reports [32m200[0m 3.465 ms - 1088[0m
+[0mGET /api/reports/6ae1e0edfe649e4631bc1c8c [32m200[0m 2.495 ms - 1075[0m
+[0mPOST /api/reports [32m201[0m 3.004 ms - 55[0m
+[0mPOST /api/reports [32m201[0m 2.846 ms - 55[0m
+[0mPOST /api/reports [32m201[0m 2.724 ms - 55[0m
+PASS tests/classifierScore.test.js (6.865 s)
+  ● Console
+
+    console.error
+      [classifier] attempt 1 failed for #1: The operation was aborted due to timeout
+
+      130 |       }))
+      131 |     } catch (err) {
+    > 132 |       console.error(`[classifier] attempt 1 failed for #${report.referenceId}:`, err.message)
+          |               ^
+      133 |       await delay(RETRY_DELAY_MS)
+      134 |       try {
+      135 |         ;({ result, spamType, score } = await callClassifierOnce({
+
+      at runClassification (src/lib/classifier.js:132:15)
+
+    console.error
+      [classifier] retry failed for #1: The operation was aborted due to timeout
+
+      139 |         }))
+      140 |       } catch (retryErr) {
+    > 141 |         console.error(
+          |                 ^
+      142 |           `[classifier] retry failed for #${report.referenceId}:`,
+      143 |           retryErr.message,
+      144 |         )
+
+      at runClassification (src/lib/classifier.js:141:17)
+
+    console.error
+      [classifier] attempt 1 failed for #1: classifier service returned 500
+
+      130 |       }))
+      131 |     } catch (err) {
+    > 132 |       console.error(`[classifier] attempt 1 failed for #${report.referenceId}:`, err.message)
+          |               ^
+      133 |       await delay(RETRY_DELAY_MS)
+      134 |       try {
+      135 |         ;({ result, spamType, score } = await callClassifierOnce({
+
+      at runClassification (src/lib/classifier.js:132:15)
+
+    console.error
+      [classifier] retry failed for #1: classifier service returned 500
+
+      139 |         }))
+      140 |       } catch (retryErr) {
+    > 141 |         console.error(
+          |                 ^
+      142 |           `[classifier] retry failed for #${report.referenceId}:`,
+      143 |           retryErr.message,
+      144 |         )
+
+      at runClassification (src/lib/classifier.js:141:17)
+
+    console.error
+      [classifier] attempt 1 failed for #1: fetch failed
+
+      130 |       }))
+      131 |     } catch (err) {
+    > 132 |       console.error(`[classifier] attempt 1 failed for #${report.referenceId}:`, err.message)
+          |               ^
+      133 |       await delay(RETRY_DELAY_MS)
+      134 |       try {
+      135 |         ;({ result, spamType, score } = await callClassifierOnce({
+
+      at runClassification (src/lib/classifier.js:132:15)
+
+    console.error
+      [classifier] retry failed for #1: fetch failed
+
+      139 |         }))
+      140 |       } catch (retryErr) {
+    > 141 |         console.error(
+          |                 ^
+      142 |           `[classifier] retry failed for #${report.referenceId}:`,
+      143 |           retryErr.message,
+      144 |         )
+
+      at runClassification (src/lib/classifier.js:141:17)
+
+    console.error
+      [audit] failed to record report audit entry: Operation interrupted because client was closed {
+        report: new ObjectId('6ae1e0effe649e4631bc1cd8'),
+        referenceId: 1,
+        action: 'classifier_run',
+        actorId: null,
+        actorName: 'System',
+        actorRole: null,
+        at: 2026-10-28T11:47:59.844Z,
+        after: 'UNCLASSIFIED',
+        reason: 'clip-spam-v2',
+        spamType: null,
+        publicVisible: false
+      }
+
+      85 |     return await ReportAuditLog.create(entry)
+      86 |   } catch (err) {
+    > 87 |     console.error('[audit] failed to record report audit entry:', err.message, entry)
+         |             ^
+      88 |     return null
+      89 |   }
+      90 | }
+
+      at recordReportAudit (src/models/ReportAuditLog.js:87:13)
+      at runClassification (src/lib/classifier.js:156:3)
+
+[0mPOST /api/officer/reports/6ae1e0f39d6d035aa069b8c5/state [32m200[0m 12.602 ms - 1349[0m
+[0mGET /api/officer/reports/6ae1e0f39d6d035aa069b8c5/audit [32m200[0m 4.226 ms - 353[0m
+[0mPOST /api/officer/reports/6ae1e0f39d6d035aa069b8d9/priority [32m200[0m 6.021 ms - 1290[0m
+[0mPOST /api/officer/reports/6ae1e0f39d6d035aa069b8d9/state [32m200[0m 13.104 ms - 1616[0m
+[0mPOST /api/officer/reports/6ae1e0f39d6d035aa069b8f2/redact [32m200[0m 23.838 ms - 1387[0m
+[0mGET /api/officer/reports/6ae1e0f39d6d035aa069b8f2/photo/original [32m200[0m 2.460 ms - 929[0m
+[0mGET /api/reports/public/1/photo [32m200[0m 1.266 ms - 737[0m
+[0mGET /api/reports/public [32m200[0m 2.617 ms - 375[0m
+[0mGET /api/reports/public/1/photo [32m200[0m 1.513 ms - 929[0m
+[0mPOST /api/officer/reports/6ae1e0f49d6d035aa069b906/photo/hide [32m200[0m 5.834 ms - 1290[0m
+[0mGET /api/reports/public [32m200[0m 1.839 ms - 349[0m
+[0mGET /api/reports/public/1/photo [33m404[0m 1.325 ms - 32[0m
+[0mGET /api/reports/photo/merosadak/reports/test-1 [33m404[0m 1.282 ms - 28[0m
+PASS tests/officer.test.js
+[0mPOST /api/reports/lookup [32m200[0m 4.774 ms - 993[0m
+[0mPOST /api/reports/lookup [32m200[0m 2.360 ms - 494[0m
+[0mPOST /api/reports/lookup [33m404[0m 1.190 ms - 87[0m
+[0mPOST /api/reports/lookup [32m200[0m 1.424 ms - 490[0m
+[0mGET /api/reports/public [32m200[0m 3.260 ms - 89[0m
+[0mGET /api/reports/public/1 [33m404[0m 1.949 ms - 59[0m
+[0mPOST /api/officer/reports/6ae1e0f6074f825bc2fcecb6/state [32m200[0m 8.936 ms - 1328[0m
+[0mGET /api/reports/public [32m200[0m 2.019 ms - 375[0m
+[0mGET /api/reports/public/1 [32m200[0m 1.480 ms - 549[0m
+[0mPOST /api/reports/lookup [32m200[0m 1.318 ms - 568[0m
+[0mGET /api/reports/public [32m200[0m 3.306 ms - 1268[0m
+[0mGET /api/reports/public?status=submitted [32m200[0m 0.126 ms - 1268[0m
+[0mGET /api/reports/public?status=rejected [32m200[0m 0.107 ms - 1268[0m
+[0mGET /api/reports/public?status=duplicate [32m200[0m 0.110 ms - 1268[0m
+[0mGET /api/reports/public [32m200[0m 2.198 ms - 1248[0m
+PASS tests/tracking.test.js
+[0mGET /api/health [32m200[0m 0.907 ms - 41[0m
+PASS tests/infra.test.js
+
+Test Suites: 6 passed, 6 total
+Tests:       39 passed, 39 total
+Snapshots:   0 total
+Time:        50.021 s
+Ran all test suites.

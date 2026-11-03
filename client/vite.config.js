@@ -1,15 +1,23 @@
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 
+// send /api requests to the backend
+// (docker: compose service name, local: port 5050)
+const apiTarget = process.env.DOCKER
+  ? 'http://server:5000'
+  : 'http://localhost:5050'
+
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
   server: {
-    // Listen on all interfaces so the port works both locally and from Docker.
+    // listen on all interfaces so docker can reach it
     host: true,
     port: 5173,
-    // Docker bind mounts on macOS/Windows don't reliably emit file-change
-    // events, so fall back to polling when running in the container.
+    proxy: {
+      '/api': { target: apiTarget, changeOrigin: true },
+    },
+    // file watching doesn't work well in docker on mac/windows, so poll instead
     watch: process.env.DOCKER ? { usePolling: true, interval: 100 } : undefined,
   },
 })

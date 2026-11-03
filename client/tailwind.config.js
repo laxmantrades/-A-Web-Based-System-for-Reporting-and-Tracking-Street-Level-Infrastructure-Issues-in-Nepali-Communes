@@ -1,20 +1,11 @@
-/**
- * Tailwind CSS configuration.
- *
- * `content` tells Tailwind which files to scan for class names so it can
- * strip every unused style out of the final CSS bundle (this is what keeps
- * a Tailwind build small). If you add a new folder with JSX, list it here.
- */
+// Tailwind settings.
+// content = files Tailwind scans for class names (unused styles get removed).
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,jsx}'],
   theme: {
     extend: {
-      /**
-       * Brand palette for MeroSadak.
-       * `brand` is the crimson used across Nepal's identity; `ink` is the
-       * near-black we use for text so it is softer than pure #000.
-       */
+      // Brand colours: brand = crimson, ink = soft black for text.
       colors: {
         brand: {
           50: '#fff1f2',
@@ -34,7 +25,7 @@ export default {
         },
       },
       fontFamily: {
-        // System font stack: fast, no web-font download, looks native everywhere.
+        // system fonts, no font download
         sans: [
           'Inter',
           'ui-sans-serif',
@@ -50,6 +41,17 @@ export default {
       container: {
         center: true,
         padding: '1rem',
+      },
+      // slow up-down float for the hero cards
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-8px)' },
+        },
+      },
+      animation: {
+        float: 'float 6s ease-in-out infinite',
+        'float-slow': 'float 8s ease-in-out infinite',
       },
     },
   },

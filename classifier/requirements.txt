@@ -1,0 +1,23 @@
+# The Python packages the classifier needs. pip installs them with:
+#   pip install -r requirements.txt
+# The "==" means "exactly this version", so it works the same on every computer.
+# (torch is not in this list because the Dockerfile installs the smaller
+# CPU-only version of it separately.)
+
+# FastAPI: the web framework. It lets me write the /classify and /health
+# endpoints as normal Python functions.
+fastapi==0.115.6
+
+# Uvicorn: the web server that actually runs the FastAPI app on port 8000.
+uvicorn==0.32.1
+
+# httpx: for downloading the photo from a Cloudinary link (like requests,
+# but newer).
+httpx==0.28.1
+
+# Pillow: for opening the image file, rotating it the right way up and
+# turning it into RGB colours.
+pillow==11.0.0
+
+# Transformers (from Hugging Face): downloads and runs the CLIP model.
+transformers==4.46.3

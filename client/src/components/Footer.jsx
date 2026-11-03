@@ -3,10 +3,7 @@ import { Link } from 'react-router-dom'
 import Logo from './Logo'
 import { site } from '../data/site'
 
-/**
- * Site footer. Kept intentionally light for the prototype — the important
- * part is a clear line that this is a student project, not a live service.
- */
+// Footer. Says clearly this is a student project.
 export default function Footer() {
   const year = new Date().getFullYear()
 
@@ -25,9 +22,9 @@ export default function Footer() {
           <ul className="mt-4 space-y-2 text-sm">
             {site.nav.map((item) => (
               <li key={item.href}>
-                <a href={item.href} className="text-white/80 hover:text-white">
+                <Link to={item.href} className="text-white/80 hover:text-white">
                   {item.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

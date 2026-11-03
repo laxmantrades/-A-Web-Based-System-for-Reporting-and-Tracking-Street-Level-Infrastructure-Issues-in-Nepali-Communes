@@ -1,0 +1,45 @@
+filename,set,true_label,spam_type,issue_type,score,result,reason,predicted_spam_type,classifier_version
+genuine/drain_03.jpg,tuning,genuine,,drain,0.998,Looks genuine,,,clip-spam-v3
+genuine/drain_08.jpg,tuning,genuine,,drain,0.9997,Looks genuine,,,clip-spam-v3
+genuine/drain_09.jpg,tuning,genuine,,drain,0.985,Looks genuine,,,clip-spam-v3
+genuine/footpath_03.jpg,tuning,genuine,,footpath,0.9941,Looks genuine,,,clip-spam-v3
+genuine/footpath_07.jpg,tuning,genuine,,footpath,0.9999,Looks genuine,,,clip-spam-v3
+genuine/footpath_08.jpg,tuning,genuine,,footpath,0.9989,Looks genuine,,,clip-spam-v3
+genuine/pothole_03.jpg,tuning,genuine,,pothole,0.9998,Looks genuine,,,clip-spam-v3
+genuine/pothole_06.jpg,tuning,genuine,,pothole,1.0,Looks genuine,,,clip-spam-v3
+genuine/pothole_09.jpg,tuning,genuine,,pothole,0.9963,Looks genuine,,,clip-spam-v3
+genuine/road_marking_03.jpg,tuning,genuine,,road_marking,0.9998,Looks genuine,,,clip-spam-v3
+genuine/road_marking_05.jpg,tuning,genuine,,road_marking,0.9991,Looks genuine,,,clip-spam-v3
+genuine/road_marking_12.jpg,tuning,genuine,,road_marking,0.9999,Looks genuine,,,clip-spam-v3
+genuine/road_sign_01.jpg,tuning,genuine,,road_sign,0.9997,Looks genuine,,,clip-spam-v3
+genuine/road_sign_02.jpg,tuning,genuine,,road_sign,0.9942,Looks genuine,,,clip-spam-v3
+genuine/road_sign_11.jpg,tuning,genuine,,road_sign,0.9998,Looks genuine,,,clip-spam-v3
+genuine/streetlight_08.jpg,tuning,genuine,,streetlight,0.9479,Looks genuine,,,clip-spam-v3
+genuine/streetlight_09.jpg,tuning,genuine,,streetlight,0.9888,Looks genuine,,,clip-spam-v3
+genuine/streetlight_12.jpg,tuning,genuine,,streetlight,0.9982,Looks genuine,,,clip-spam-v3
+spam/animal/animal_03.jpg,tuning,spam,animal,,0.0004,Likely spam,Looks like an animal,animal,clip-spam-v3
+spam/animal/animal_04.jpg,tuning,spam,animal,,0.0037,Likely spam,Looks like an animal,animal,clip-spam-v3
+spam/blank/blank_05.jpg,tuning,spam,blank,,0.0043,Likely spam,Image is blank or too blurry,blank,clip-spam-v3
+spam/blank/blank_08.jpg,tuning,spam,blank,,0.0212,Likely spam,Image is blank or too blurry,blank,clip-spam-v3
+spam/chart/chart_01.jpg,tuning,spam,chart,,0.0,Likely spam,Looks like a chart,chart,clip-spam-v3
+spam/chart/chart_07.jpg,tuning,spam,chart,,0.0,Likely spam,Looks like a chart,chart,clip-spam-v3
+spam/document/document_01.jpg,tuning,spam,document,,0.0,Likely spam,Looks like a document,document,clip-spam-v3
+spam/document/document_06.jpg,tuning,spam,document,,0.0001,Likely spam,Looks like a document,document,clip-spam-v3
+spam/food/food_05.jpg,tuning,spam,food,,0.0007,Likely spam,Looks like food,food,clip-spam-v3
+spam/food/food_07.jpg,tuning,spam,food,,0.0005,Likely spam,Looks like food,food,clip-spam-v3
+spam/furniture/furniture_02.jpg,tuning,spam,furniture,,0.0,Likely spam,Looks like furniture,furniture,clip-spam-v3
+spam/furniture/furniture_06.jpg,tuning,spam,furniture,,0.0001,Likely spam,Looks like an indoor room,indoor,clip-spam-v3
+spam/group/group_05.jpg,tuning,spam,group,,0.0,Likely spam,Looks like a photo of people,group,clip-spam-v3
+spam/group/group_10.jpg,tuning,spam,group,,0.0,Likely spam,Looks like a photo of people,group,clip-spam-v3
+spam/indoor/indoor_02.jpg,tuning,spam,indoor,,0.0001,Likely spam,Looks like an indoor room,indoor,clip-spam-v3
+spam/indoor/indoor_06.jpg,tuning,spam,indoor,,0.0084,Likely spam,Looks like an indoor room,indoor,clip-spam-v3
+spam/landscape/landscape_08.jpg,tuning,spam,landscape,,0.1829,Likely spam,Looks like a landscape,landscape,clip-spam-v3
+spam/landscape/landscape_09.jpg,tuning,spam,landscape,,0.5296,Unsure,Looks like a landscape,landscape,clip-spam-v3
+spam/meme/meme_04.jpg,tuning,spam,meme,,0.0353,Likely spam,Looks like a meme or drawing,meme,clip-spam-v3
+spam/meme/meme_05.jpg,tuning,spam,meme,,0.0008,Likely spam,Looks like an animal,animal,clip-spam-v3
+spam/screenshot/screenshot_03.png,tuning,spam,screenshot,,0.0031,Likely spam,Looks like a screenshot,screenshot,clip-spam-v3
+spam/screenshot/screenshot_11.png,tuning,spam,screenshot,,0.0,Likely spam,Looks like a document,document,clip-spam-v3
+spam/selfie/selfie_08.jpg,tuning,spam,selfie,,0.0002,Likely spam,Looks like a selfie,selfie,clip-spam-v3
+spam/selfie/selfie_09.jpg,tuning,spam,selfie,,0.0005,Likely spam,Looks like a selfie,selfie,clip-spam-v3
+unclear/unclear_01.jpg,tuning,unclear,,through_window,0.3023,Unsure,Looks like an indoor room,indoor,clip-spam-v3
+unclear/unclear_03.jpg,tuning,unclear,,tarmac_closeup,0.5311,Unsure,Looks like an animal,animal,clip-spam-v3

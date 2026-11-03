@@ -1,0 +1,37 @@
+# Render settings for the backend (server/). See DEPLOY.md.
+# Values marked sync: false are typed in on the Render website, never saved here.
+services:
+  - type: web
+    name: merosadak-api
+    runtime: node
+    plan: free
+    rootDir: server
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Vercel + Render = 2 proxies in front of the app
+      - key: TRUST_PROXY
+        value: "2"
+      - key: MONGODB_URI
+        sync: false
+      - key: CLOUDINARY_URL
+        sync: false
+      # https://<hf-user>-merosadak-classifier.hf.space/classify
+      - key: CLASSIFIER_URL
+        sync: false
+      # your Vercel URL, e.g. https://merosadak.vercel.app
+      - key: CLIENT_ORIGIN
+        sync: false
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: MAIL_FROM
+        sync: false

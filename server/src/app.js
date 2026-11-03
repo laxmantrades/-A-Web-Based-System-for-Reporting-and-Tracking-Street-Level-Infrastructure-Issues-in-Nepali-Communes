@@ -1,38 +1,39 @@
 import express from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
+import cookieParser from 'cookie-parser'
 
 import reportRoutes from './routes/reportRoutes.js'
+import officerRoutes from './routes/officerRoutes.js'
 import { notFound, errorHandler } from './middleware/errorHandler.js'
 
-/**
- * Build the Express application.
- *
- * Split from src/index.js so the app can be imported by tests without opening
- * a network port or a database connection.
- *
- * @param {object} options
- * @param {string} options.clientOrigin - allowed CORS origin (the React app).
- */
+// Builds the express app. Separate from index.js so tests can use it
+// without opening a port or a db connection.
 export function createApp({ clientOrigin } = {}) {
   const app = express()
 
-  // --- Global middleware -------------------------------------------------
-  app.use(cors({ origin: clientOrigin || true }))
-  app.use(express.json()) // parse JSON request bodies
-  app.use(morgan('dev')) // one log line per request
+  // --- middleware ---
+  // credentials: lets the browser send the officer cookie
+  app.use(cors({ origin: clientOrigin || true, credentials: true }))
+  app.use(express.json()) // read JSON bodies
+  app.use(cookieParser()) // read cookies
+  app.use(morgan('dev')) // log each request
 
-  // --- Health check ----------------------------------------------------
+  // how many proxies are in front, so req.ip is the real client
+  // (1 locally, 2 on Render behind Vercel, see DEPLOY.md)
+  app.set('trust proxy', Number(process.env.TRUST_PROXY || 1))
+
+  // --- health check ---
   app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', service: 'merosadak-api' })
   })
 
-  // --- Feature routes -------------------------------------------------
+  // --- routes ---
   app.use('/api/reports', reportRoutes)
-  // TODO: app.use('/api/auth', authRoutes)
+  app.use('/api/officer', officerRoutes)
   // TODO: app.use('/api/users', userRoutes)
 
-  // --- Error handling (must be last) ---------------------------------
+  // --- errors (must be last) ---
   app.use(notFound)
   app.use(errorHandler)
 

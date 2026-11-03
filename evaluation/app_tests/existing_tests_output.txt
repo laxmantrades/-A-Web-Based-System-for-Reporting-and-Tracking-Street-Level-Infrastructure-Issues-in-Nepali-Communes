@@ -1,0 +1,53 @@
+MeroSadak — existing automated tests check
+Run: 2026-10-28 11:41:17 CET   Node v22.11.0   npm 10.9.0
+
+## Search for test files (excluding node_modules, .git)
+$ find . -name "*.test.*" -o -name "*.spec.*" -o -name __tests__ -o -name jest.config* -o -name vitest.config* -o -name playwright.config* -o -name "test_*.py" -o -name pytest.ini
+(no matches)
+
+## server/package.json scripts
+{
+  "dev": "node --watch src/index.js",
+  "start": "node src/index.js"
+}
+$ (cd server && npm test)
+npm error Missing script: "test"
+npm error
+npm error To see a list of scripts, run:
+npm error   npm run
+npm error A complete log of this run can be found in: /Users/laxmangiri/.npm/_logs/2026-10-28T10_41_17_823Z-debug-0.log
+exit code: 1
+
+## client/package.json scripts
+{
+  "dev": "vite",
+  "build": "vite build",
+  "lint": "eslint .",
+  "preview": "vite preview"
+}
+$ (cd client && npm test)
+npm error Missing script: "test"
+npm error
+npm error To see a list of scripts, run:
+npm error   npm run
+npm error A complete log of this run can be found in: /Users/laxmangiri/.npm/_logs/2026-10-28T10_41_18_004Z-debug-0.log
+exit code: 1
+
+## eval/package.json scripts
+{
+  "make-sample": "node scripts/make-sample-dataset.mjs",
+  "score": "node scripts/score.mjs",
+  "evaluate": "node scripts/evaluate.mjs",
+  "eval": "node scripts/run-all.mjs"
+}
+$ (cd eval && npm test)
+npm error Missing script: "test"
+npm error
+npm error To see a list of scripts, run:
+npm error   npm run
+npm error A complete log of this run can be found in: /Users/laxmangiri/.npm/_logs/2026-10-28T10_41_18_172Z-debug-0.log
+exit code: 1
+
+## Conclusion
+No automated unit, API or end-to-end tests exist in the project. None of server, client or eval defines a "test" script.
+eval/ is an offline classifier-evaluation harness (precision/recall scoring), not a test suite, so it was not run here.

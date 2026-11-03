@@ -1,30 +1,27 @@
-/*
- * Central place for site-wide text and constants.
- *
- * Keeping copy here (instead of hard-coding it inside components) means a
- * non-developer can tweak wording, and translating the UI to Nepali later is
- * just a matter of swapping this file.
- */
+/* Site text and constants in one place (easy to change or translate later). */
 export const site = {
   name: 'MeroSadak',
-  // "मेरो सडक" = "my street" in Nepali.
+  // "मेरो सडक" = "my street"
   tagline: 'Report street problems in your ward. Track the fix.',
   description:
     'A simple way for citizens in Nepal to report potholes, broken streetlights, blocked drains and other street problems — and follow what happens next.',
 
-  // Anchor links used by the navbar. `href` values match the `id` on each
-  // <section> in the homepage.
+  // placeholder support email
+  contactEmail: 'help@merosadak.org.np',
+  // placeholder email for complaints about a public report
+  moderationEmail: 'moderation@merosadak.org.np',
+
+  // homepage section links for navbar and footer ("/" makes them work from any page)
   nav: [
-    { label: 'How it works', href: '#how-it-works' },
-    { label: 'What you can report', href: '#categories' },
-    { label: 'For ward officers', href: '#officers' },
+    { label: 'How it works', href: '/#how-it-works' },
+    { label: 'What you can report', href: '/#categories' },
   ],
 
-  // Placeholder figures for the prototype. Replace with real query results
-  // once the backend is connected.
+  // stats under the hero
   stats: [
     { value: '6', label: 'Street-issue categories' },
-    { value: '3', label: 'Confidence levels on the AI photo check' },
+    { value: '~1 min', label: 'To file a report' },
     { value: '24/7', label: 'Report any time, no office visit' },
+    { value: 'Free', label: 'No account needed' },
   ],
 }

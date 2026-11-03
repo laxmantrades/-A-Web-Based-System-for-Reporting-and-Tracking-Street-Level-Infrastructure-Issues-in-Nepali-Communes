@@ -1,19 +1,12 @@
-/* -------------------------------------------------------------------------- */
-/*  Global stylesheet                                                          */
-/*                                                                            */
-/*  The three @tailwind lines below are placeholders that Tailwind replaces    */
-/*  at build time with its generated CSS:                                      */
-/*    - base:       sensible cross-browser resets                              */
-/*    - components: reusable class groups (we define a few in @layer below)    */
-/*    - utilities:  the single-purpose classes like `flex`, `p-4`, `text-lg`   */
-/* -------------------------------------------------------------------------- */
+/* Global styles */
+/* the @tailwind lines get replaced with Tailwind's CSS when building */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   html {
-    /* Smooth scroll when the navbar anchor links jump to a section. */
+    /* smooth scroll for navbar links */
     scroll-behavior: smooth;
   }
 
@@ -23,10 +16,7 @@
 }
 
 @layer components {
-  /*
-   * `.btn-primary` / `.btn-ghost` are small component classes so we do not
-   * repeat the same long list of utilities on every button in the page.
-   */
+  /* button classes so we don't repeat the same utilities everywhere */
   .btn-primary {
     @apply inline-flex items-center justify-center gap-2 rounded-lg bg-brand-600
            px-5 py-3 text-sm font-semibold text-white transition-colors
@@ -42,8 +32,28 @@
            focus-visible:ring-offset-2;
   }
 
-  /* Consistent max width + horizontal padding for every section. */
+  /* same max width and padding for every section */
   .section-shell {
     @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+}
+
+/* toast slide in (ToastProvider.jsx) */
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.toast-enter {
+  animation: toast-in 180ms ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .toast-enter {
+    animation: none;
   }
 }

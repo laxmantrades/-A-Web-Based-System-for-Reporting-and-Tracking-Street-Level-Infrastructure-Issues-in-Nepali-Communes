@@ -5,20 +5,13 @@ import { Menu, X } from 'lucide-react'
 import Logo from './Logo'
 import { site } from '../data/site'
 
-/**
- * Sticky top navigation.
- *
- * Behaviour:
- *   - Adds a subtle shadow once the user scrolls, so it lifts off the hero.
- *   - On small screens the links collapse into a toggle menu.
- */
+// Top navbar. Gets a shadow on scroll, collapses into a menu on small screens.
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
-    // Passive listener = we never call preventDefault, so the browser can
-    // keep scrolling smooth while this runs.
+    // passive = smoother scrolling
     const onScroll = () => setScrolled(window.scrollY > 8)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -38,21 +31,21 @@ export default function Navbar() {
           <Logo />
         </Link>
 
-        {/* Desktop links */}
+        {/* desktop links */}
         <ul className="hidden items-center gap-8 md:flex">
           {site.nav.map((item) => (
             <li key={item.href}>
-              <a
-                href={item.href}
+              <Link
+                to={item.href}
                 className="text-sm font-medium text-ink-soft transition-colors hover:text-ink"
               >
                 {item.label}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
 
-        {/* Desktop actions */}
+        {/* desktop buttons */}
         <div className="hidden items-center gap-3 md:flex">
           <Link to="/track" className="btn-ghost">
             Track a report
@@ -62,7 +55,7 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Mobile toggle */}
+        {/* mobile menu button */}
         <button
           type="button"
           className="grid h-10 w-10 place-items-center rounded-lg border border-slate-300 md:hidden"
@@ -74,19 +67,19 @@ export default function Navbar() {
         </button>
       </nav>
 
-      {/* Mobile dropdown panel */}
+      {/* mobile menu */}
       {menuOpen && (
         <div className="border-t border-slate-200 bg-white md:hidden">
           <ul className="section-shell flex flex-col gap-1 py-3">
             {site.nav.map((item) => (
               <li key={item.href}>
-                <a
-                  href={item.href}
+                <Link
+                  to={item.href}
                   onClick={closeMenu}
                   className="block rounded-md px-2 py-2 text-sm font-medium text-ink-soft hover:bg-slate-50 hover:text-ink"
                 >
                   {item.label}
-                </a>
+                </Link>
               </li>
             ))}
             <li className="mt-2 flex flex-col gap-2">

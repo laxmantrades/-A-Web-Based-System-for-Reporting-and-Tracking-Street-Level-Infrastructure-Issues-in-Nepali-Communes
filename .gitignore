@@ -17,3 +17,8 @@ client/dist/
 **/.dockerignore
 docker-compose.yml
 docker-compose.*.yml
+backups/
+
+# CLIP evaluation virtualenv
+evaluation/.venv/
+evaluation/clip_eval/live_runs/

@@ -1,0 +1,79 @@
+MeroSadak CLIP spam check — test set metrics
+Classifier version: clip-spam-v3; thresholds 0.7 (Looks genuine) / 0.3 (Likely spam)
+Source: results/test_results.csv (122 rows)
+
+1. Images per class (test set)
+   genuine  54
+     pothole       9
+     road_sign     9
+     streetlight   9
+     road_marking  9
+     footpath      9
+     drain         9
+   spam     60
+     furniture     5
+     chart         5
+     screenshot    5
+     selfie        5
+     food          5
+     animal        5
+     document      5
+     meme          5
+     blank         5
+     indoor        5
+     landscape     5
+     group         5
+   unclear  8 (reported separately, not scored)
+   scored total (genuine + spam): 114
+
+2. Confusion matrix (rows = true label, columns = result)
+              Looks genuine         Unsure    Likely spam   total
+   genuine               54              0              0      54
+   spam                   0              1             59      60
+
+3. Headline numbers
+   Unsure rate:                       1/114 = 0.9%  (genuine 0/54 = 0.0%, spam 1/60 = 1.7%)
+   Accuracy on decisive results:      113/113 = 100.0%  (Unsure excluded)
+   Genuine flagged as Likely spam:    0/54 = 0.0%
+   Spam marked Looks genuine:         0/60 = 0.0%
+
+4. Results per spam type
+   type           n  Likely spam  Unsure  Looks genuine  share Likely spam  reason matched type
+   furniture      5            5       0              0             100.0%                  2/5
+   chart          5            5       0              0             100.0%                  5/5
+   screenshot     5            5       0              0             100.0%                  4/5
+   selfie         5            5       0              0             100.0%                  5/5
+   food           5            5       0              0             100.0%                  5/5
+   animal         5            5       0              0             100.0%                  4/5
+   document       5            5       0              0             100.0%                  5/5
+   meme           5            5       0              0             100.0%                  3/5
+   blank          5            5       0              0             100.0%                  1/5
+   indoor         5            5       0              0             100.0%                  5/5
+   landscape      5            4       1              0              80.0%                  5/5
+   group          5            5       0              0             100.0%                  5/5
+   (reason matched type = of the images not marked Looks genuine, how many got the reason for their own type)
+
+5. Results per genuine issue type
+   type            n  Looks genuine  Unsure  Likely spam
+   pothole         9              9       0            0
+   road_sign       9              9       0            0
+   streetlight     9              9       0            0
+   road_marking    9              9       0            0
+   footpath        9              9       0            0
+   drain           9              9       0            0
+   dark/blurred    6              6       0            0  (subset of the rows above, from SOURCES.csv notes)
+
+6. Unclear images (not scored)
+   Looks genuine: 7, Unsure: 0, Likely spam: 1
+   0.2709  Likely spam   unclear/unclear_02.jpg (through_window)
+   0.7934  Looks genuine unclear/unclear_07.jpg (vehicle_focus)
+   0.8998  Looks genuine unclear/unclear_09.jpg (map_or_sign_board)
+   0.9598  Looks genuine unclear/unclear_06.jpg (puddle_reflection)
+   0.9926  Looks genuine unclear/unclear_05.jpg (puddle_reflection)
+   0.9990  Looks genuine unclear/unclear_10.jpg (crowd_street)
+   0.9993  Looks genuine unclear/unclear_04.jpg (construction)
+   0.9994  Looks genuine unclear/unclear_11.jpg (vehicle_focus)
+
+7. Misclassified images (copied to results/errors/)
+   none
+   plus 1 Unsure images in results/errors/unsure/

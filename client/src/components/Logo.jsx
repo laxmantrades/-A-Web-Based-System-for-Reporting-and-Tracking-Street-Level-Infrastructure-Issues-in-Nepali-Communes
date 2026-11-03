@@ -2,12 +2,7 @@ import { MapPin } from 'lucide-react'
 
 import { site } from '../data/site'
 
-/**
- * Wordmark used in the navbar and footer.
- *
- * Props:
- *   - tone: 'dark' (default) for light backgrounds, 'light' for dark ones.
- */
+// Logo for navbar and footer. tone: 'dark' (default) or 'light' for dark backgrounds.
 export default function Logo({ tone = 'dark' }) {
   const textColor = tone === 'light' ? 'text-white' : 'text-ink'
 

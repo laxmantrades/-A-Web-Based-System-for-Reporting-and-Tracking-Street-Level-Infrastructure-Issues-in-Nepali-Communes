@@ -1,11 +1,10 @@
 import mongoose from 'mongoose'
 
+import { deleteImage } from '../lib/cloudinary.js'
+
 const { Schema } = mongoose
 
-/**
- * The fixed street-issue categories. Must stay in sync with the frontend list
- * in client/src/data/categories.js (the `id` values).
- */
+// Report categories. Must match the ids in client/src/data/categories.js.
 export const CATEGORIES = [
   'pothole',
   'road_sign',
@@ -15,28 +14,24 @@ export const CATEGORIES = [
   'drain',
 ]
 
-/**
- * Issue lifecycle (state machine). Allowed transitions are enforced in the
- * controller, not here — the schema only lists the valid states.
- *
- *   submitted ─▶ acknowledged ─▶ in_progress ─▶ resolved
- *        └──────────────┴───────────────┴────▶ rejected / duplicate
- */
+// Report statuses. Allowed moves are checked in the controller.
+//   submitted -> acknowledged -> in_progress -> resolved -> closed
+//   (or rejected / duplicate)
+// Citizens see: Submitted, In Review, In Progress, Resolved, Closed,
+// and "Report not approved" for rejected / duplicate.
 export const STATUSES = [
   'submitted',
   'acknowledged',
   'in_progress',
   'resolved',
+  'closed',
   'rejected',
   'duplicate',
 ]
 
 export const PRIORITIES = ['low', 'medium', 'high']
 
-/**
- * One entry in a report's audit trail. Every status change appends one of
- * these, so we always know who changed what and when.
- */
+// One status change: who, what, when.
 const statusEventSchema = new Schema(
   {
     status: { type: String, enum: STATUSES, required: true },
@@ -47,25 +42,63 @@ const statusEventSchema = new Schema(
   { _id: false },
 )
 
-/**
- * Result of the AI photo check. Advisory only — shown to officers, never to
- * citizens, and it never changes a report's status by itself.
- *
- * TODO (AI sprint): the Python zero-shot service fills this in and the API
- * stores the response here.
- */
-const aiValidationSchema = new Schema(
+// Note only officers see. Public notes go on statusHistory instead.
+const internalNoteSchema = new Schema(
   {
-    // Bucketed confidence the officer sees.
-    verdict: {
+    body: { type: String, trim: true, required: true, maxlength: 1000 },
+    author: { type: Schema.Types.ObjectId, ref: 'User', default: null },
+    createdAt: { type: Date, default: Date.now },
+  },
+  { _id: false },
+)
+
+// One black box, in pixels of the original image.
+const redactionRectSchema = new Schema(
+  {
+    x: { type: Number, required: true, min: 0 },
+    y: { type: Number, required: true, min: 0 },
+    width: { type: Number, required: true, min: 1 },
+    height: { type: Number, required: true, min: 1 },
+  },
+  { _id: false },
+)
+
+// AI spam check result. Only a hint for officers, never shown to citizens,
+// never changes the status by itself.
+//   result   HIGH (genuine) | MEDIUM (unsure) | LOW (spam) | UNCLASSIFIED | null
+//   spamType e.g. 'furniture', 'chart' (null if genuine)
+//   runAt    when it last ran
+//   version  classifier version
+//   score    raw 0-1 score, saved for evaluation only
+const classifierSchema = new Schema(
+  {
+    result: {
       type: String,
-      enum: ['match', 'unsure', 'mismatch', 'not_checked'],
-      default: 'not_checked',
+      enum: ['HIGH', 'MEDIUM', 'LOW', 'UNCLASSIFIED', null],
+      default: null,
     },
-    // Raw model score for the chosen category, 0..1.
-    score: { type: Number, min: 0, max: 1, default: null },
-    modelName: { type: String, default: null }, // e.g. "CLIP ViT-B/32"
-    checkedAt: { type: Date, default: null },
+    spamType: { type: String, default: null },
+    runAt: { type: Date, default: null },
+    version: { type: String, default: null },
+    // hidden from every query unless asked with .select('+classifier.score')
+    score: { type: Number, default: null, select: false },
+  },
+  { _id: false },
+)
+
+// GeoJSON point + street name from reverse geocoding
+const pointSchema = new Schema(
+  {
+    type: { type: String, enum: ['Point'], default: 'Point' },
+    coordinates: {
+      type: [Number],
+      required: true,
+      validate: {
+        validator: (v) => Array.isArray(v) && v.length === 2,
+        message: 'coordinates must be [longitude, latitude]',
+      },
+    },
+    address: { type: String, trim: true, default: '' },
   },
   { _id: false },
 )
@@ -73,65 +106,114 @@ const aiValidationSchema = new Schema(
 const reportSchema = new Schema(
   {
     category: { type: String, enum: CATEGORIES, required: true },
-    description: { type: String, required: true, trim: true, maxlength: 1000 },
 
-    // Path / URL to the uploaded photo. File storage is handled separately;
-    // the DB only keeps the reference.
+    // citizen note (max 200 chars). description is for longer officer text, not required
+    note: { type: String, trim: true, maxlength: 200, default: '' },
+    description: { type: String, trim: true, maxlength: 1000, default: '' },
+
+    // original photo url in cloudinary, never sent to the browser (API proxies it)
     photoUrl: { type: String, required: true },
+    // cloudinary id of the original, random so it can't be guessed
+    photoPublicId: { type: String, default: '' },
 
-    /**
-     * Location as a GeoJSON Point: coordinates are [longitude, latitude].
-     * The 2dsphere index (below) lets us query "reports near here" later.
-     */
-    location: {
-      type: {
-        type: String,
-        enum: ['Point'],
-        default: 'Point',
-      },
-      coordinates: {
-        type: [Number],
-        required: true,
-        validate: {
-          validator: (v) => Array.isArray(v) && v.length === 2,
-          message: 'coordinates must be [longitude, latitude]',
-        },
-      },
-      address: { type: String, trim: true, default: '' },
+    // what the public sees for the photo:
+    //   visible  - the photo
+    //   hidden   - "Photo hidden by moderator"
+    //   redacted - the redacted copy
+    photoStatus: {
+      type: String,
+      enum: ['visible', 'hidden', 'redacted'],
+      default: 'visible',
     },
+    // photo with black boxes. Original is kept while the report is open,
+    // deleted when closed/rejected (see originalDeletedAt).
+    hasRedaction: { type: Boolean, default: false },
+    redactedPhotoUrl: { type: String, default: '' },
+    redactedPhotoPublicId: { type: String, default: '' },
+    // the boxes, so the redaction tool can load them again
+    redaction: {
+      rects: { type: [redactionRectSchema], default: [] },
+      updatedAt: { type: Date, default: null },
+      updatedBy: { type: Schema.Types.ObjectId, ref: 'User', default: null },
+    },
+    // set when the original got deleted after closing.
+    // photoUrl then points to the redacted image and redaction can't be changed.
+    originalDeletedAt: { type: Date, default: null },
 
-    ward: { type: Number, required: true, min: 1 },
+    // citizen email for updates and tracking lookup. Never shown publicly.
+    reporterEmail: { type: String, trim: true, lowercase: true, required: true },
 
-    // What the citizen suggested vs. what the officer decided.
+    // short number shown to the citizen (#142)
+    referenceId: { type: Number, required: true, unique: true },
+
+    // GPS as GeoJSON [lng, lat]. Only set if "Use my location" was used
+    // (a half-filled point breaks the 2dsphere index).
+    location: { type: pointSchema, default: undefined },
+
+    // written location e.g. "Ward 6, near the temple". Need this, GPS, or both.
+    locationDescription: { type: String, trim: true, maxlength: 200, default: '' },
+
+    // set by officer, unknown on submit
+    ward: { type: Number, min: 1, default: null },
+
+    // citizen's suggestion vs officer's decision (null until set)
     suggestedPriority: { type: String, enum: PRIORITIES, default: 'medium' },
-    priority: { type: String, enum: PRIORITIES, default: 'medium' },
+    priority: { type: String, enum: [...PRIORITIES, null], default: null },
 
     status: { type: String, enum: STATUSES, default: 'submitted' },
     statusHistory: { type: [statusEventSchema], default: [] },
 
-    aiValidation: { type: aiValidationSchema, default: () => ({}) },
+    // officer-only notes
+    internalNotes: { type: [internalNoteSchema], default: [] },
 
-    // Optional: set when a signed-in citizen reports. Null for anonymous.
+    // rejection info
+    rejection: {
+      reason: { type: String, default: '' }, // spam | duplicate | out_of_scope | other
+      detail: { type: String, trim: true, default: '' },
+      at: { type: Date, default: null },
+    },
+
+    // when it first got resolved (or closed). Used for "Recently Resolved".
+    resolvedAt: { type: Date, default: null },
+
+    classifier: { type: classifierSchema, default: () => ({}) },
+
+    // set if a logged-in citizen reported, null if anonymous
     reporter: { type: Schema.Types.ObjectId, ref: 'User', default: null },
-    // Officer currently handling it.
+    // officer handling it
     assignedOfficer: { type: Schema.Types.ObjectId, ref: 'User', default: null },
   },
   { timestamps: true },
 )
 
-// Geospatial index for "near me" queries.
+// for "near me" queries
 reportSchema.index({ location: '2dsphere' })
-// Common dashboard filter: newest open reports in a ward.
+// newest open reports in a ward
 reportSchema.index({ ward: 1, status: 1, createdAt: -1 })
+// tracking lookup by email
+reportSchema.index({ reporterEmail: 1, createdAt: -1 })
+// public page lists
+reportSchema.index({ status: 1, createdAt: -1 })
+reportSchema.index({ status: 1, resolvedAt: -1 })
 
-/**
- * Seed the audit trail with the initial "submitted" event on creation.
- */
+// add the first "submitted" entry when created
 reportSchema.pre('save', function seedHistory(next) {
   if (this.isNew && this.statusHistory.length === 0) {
     this.statusHistory.push({ status: this.status, note: 'Report created' })
   }
   next()
+})
+
+// if a report gets deleted, delete its redacted image too (not the original)
+reportSchema.pre('deleteOne', { document: true, query: false }, function () {
+  deleteImage(this.redactedPhotoPublicId)
+})
+reportSchema.pre('findOneAndDelete', async function () {
+  const doc = await this.model
+    .findOne(this.getQuery())
+    .select('redactedPhotoPublicId')
+    .lean()
+  if (doc?.redactedPhotoPublicId) deleteImage(doc.redactedPhotoPublicId)
 })
 
 export const Report = mongoose.model('Report', reportSchema)

@@ -3,15 +3,14 @@ import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 
-/*
- * ESLint "flat config" (the modern single-file format).
- *
- * - js.configs.recommended: the core rule set everyone uses.
- * - react-hooks: catches misuse of useState / useEffect etc.
- * - react-refresh: warns about patterns that break hot-reload in Vite.
- */
+// ESLint settings: recommended rules + react hooks + vite hot reload checks.
 export default [
   { ignores: ['dist'] },
+  {
+    // config files run in node
+    files: ['*.config.js'],
+    languageOptions: { globals: globals.node },
+  },
   {
     files: ['**/*.{js,jsx}'],
     languageOptions: {
@@ -30,7 +29,7 @@ export default [
     rules: {
       ...js.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
-      // Allow unused args that start with _ and unused capitalised vars (React).
+      // ignore unused args starting with _ and unused capitalised vars
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
       'react-refresh/only-export-components': [
         'warn',

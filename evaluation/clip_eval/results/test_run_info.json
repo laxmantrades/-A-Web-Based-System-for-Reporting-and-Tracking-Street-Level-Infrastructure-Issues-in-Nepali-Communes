@@ -1,0 +1,26 @@
+{
+  "set": "test",
+  "started": "2026-10-29T08:16:44+00:00",
+  "url": "http://127.0.0.1:8000/classify",
+  "health": {
+    "ok": true,
+    "model": "openai/clip-vit-base-patch32",
+    "version": "clip-spam-v3"
+  },
+  "thresholds_in_prompts_py": {
+    "genuine": 0.7,
+    "spam": 0.3
+  },
+  "sha256": {
+    "classifier/prompts.py": "b963027b0710d098f45b1a7363a9c535903293c6c04caaf0b444c84915d0282e",
+    "classifier/app.py": "ae275413bc73a072f7237ebc079fbdb268fb014628a5aea0a1b76217dbe9fbfb",
+    "server/src/models/ClassifierConfig.js": "2befe7e24740c676379366fbf184b816498fba8a012fdd7014568c9e460333c0"
+  },
+  "images": 122,
+  "finished": "2026-10-29T08:17:02+00:00",
+  "sha256_after": {
+    "classifier/prompts.py": "b963027b0710d098f45b1a7363a9c535903293c6c04caaf0b444c84915d0282e",
+    "classifier/app.py": "ae275413bc73a072f7237ebc079fbdb268fb014628a5aea0a1b76217dbe9fbfb",
+    "server/src/models/ClassifierConfig.js": "2befe7e24740c676379366fbf184b816498fba8a012fdd7014568c9e460333c0"
+  }
+}

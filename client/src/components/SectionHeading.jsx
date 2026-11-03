@@ -1,13 +1,5 @@
-/**
- * Shared heading block for each homepage section: a small eyebrow label,
- * a title, and an optional lead paragraph — always styled the same way.
- *
- * Props:
- *   - eyebrow:  short kicker text above the title
- *   - title:    the section heading
- *   - children: optional supporting sentence(s)
- *   - align:    'center' (default) or 'left'
- */
+// Heading for each homepage section.
+// Props: eyebrow, title, children (text under it), align ('center' or 'left')
 export default function SectionHeading({ eyebrow, title, children, align = 'center' }) {
   const alignment = align === 'left' ? 'text-left' : 'text-center mx-auto'
 

@@ -1,0 +1,34 @@
+Tuning set: 44 images; app thresholds 0.7/0.3
+
+true label    n Looks genuine        Unsure   Likely spam
+genuine      18            18             0             0
+spam         24             0             1            23
+unclear       2             0             2             0
+
+Thresholds (genuine/spam) -> errors on the tuning set (unclear images not counted)
+thresholds   genuine->Likely spam   spam->Looks genuine   genuine Unsure   spam Unsure
+ 0.7/0.3             0 ( 0.0%)          0 ( 0.0%)        0 ( 0.0%)     1 ( 4.2%)  <- current
+ 0.6/0.3             0 ( 0.0%)          0 ( 0.0%)        0 ( 0.0%)     1 ( 4.2%)
+ 0.7/0.4             0 ( 0.0%)          0 ( 0.0%)        0 ( 0.0%)     1 ( 4.2%)
+ 0.8/0.3             0 ( 0.0%)          0 ( 0.0%)        0 ( 0.0%)     1 ( 4.2%)
+ 0.6/0.4             0 ( 0.0%)          0 ( 0.0%)        0 ( 0.0%)     1 ( 4.2%)
+ 0.8/0.2             0 ( 0.0%)          0 ( 0.0%)        0 ( 0.0%)     1 ( 4.2%)
+ 0.5/0.5             0 ( 0.0%)          1 ( 4.2%)        0 ( 0.0%)     0 ( 0.0%)
+
+Lowest-scoring genuine images:
+  0.9479  Looks genuine genuine/streetlight_08.jpg
+  0.9850  Looks genuine genuine/drain_09.jpg
+  0.9888  Looks genuine genuine/streetlight_09.jpg
+  0.9941  Looks genuine genuine/footpath_03.jpg
+  0.9942  Looks genuine genuine/road_sign_02.jpg
+  0.9963  Looks genuine genuine/pothole_09.jpg
+Highest-scoring spam images:
+  0.5296  Unsure        spam/landscape/landscape_09.jpg
+  0.1829  Likely spam   spam/landscape/landscape_08.jpg
+  0.0353  Likely spam   spam/meme/meme_04.jpg
+  0.0212  Likely spam   spam/blank/blank_08.jpg
+  0.0084  Likely spam   spam/indoor/indoor_06.jpg
+  0.0043  Likely spam   spam/blank/blank_05.jpg
+Unclear images:
+  0.3023  Unsure        unclear/unclear_01.jpg
+  0.5311  Unsure        unclear/unclear_03.jpg
