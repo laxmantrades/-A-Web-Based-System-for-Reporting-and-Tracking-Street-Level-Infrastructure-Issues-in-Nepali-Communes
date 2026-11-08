@@ -55,7 +55,6 @@ export function createApp({ clientOrigin } = {}) {
   // --- routes ---
   app.use('/api/reports', reportRoutes)
   app.use('/api/officer', officerRoutes)
-  // TODO: app.use('/api/users', userRoutes)
 
   // --- errors (must be last) ---
   app.use(notFound)

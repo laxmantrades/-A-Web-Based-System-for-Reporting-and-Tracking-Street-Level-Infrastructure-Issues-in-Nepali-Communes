@@ -68,21 +68,16 @@ makes the final decision, and citizens never see the label.
 ├── client/        the React website (citizen pages + staff dashboard)
 ├── server/        the Express API, database models and tests
 ├── classifier/    the Python service that runs the CLIP photo check
-├── evaluation/    my thesis evaluation: app test reports + the AI photo check test (see evaluation/README.md)
-└── docker-compose.yml   starts everything with one command
+└── evaluation/    my thesis evaluation: app test reports + the AI photo check test (see evaluation/README.md)
 ```
 
 ---
 
 ## How to run it
 
-The easiest way is with **Docker**, because it starts all three parts
-(website, API and AI service) together, so you don't have to install Node or
-Python yourself.
-
 ### 1. Things you need first
 
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- [Node.js](https://nodejs.org/) 20.19+ (or 22.12+)
 - A free [MongoDB Atlas](https://www.mongodb.com/atlas) database
 - A free [Cloudinary](https://cloudinary.com/) account (this is where photos
   are saved)
@@ -93,6 +88,7 @@ Create a file called `server/.env` and put your own values in it:
 
 ```bash
 # Required
+PORT=5050
 MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>/merosadak
 CLOUDINARY_URL=cloudinary://<api_key>:<api_secret>@<cloud_name>
 
@@ -108,13 +104,34 @@ MAIL_FROM="MeroSadak <you@gmail.com>"
 
 ### 3. Start everything
 
+Open two terminals:
+
 ```bash
-docker compose up --build    # the first time (it takes a while to download things)
-docker compose up            # every time after that
-docker compose down          # to stop it
+# terminal 1: the API
+cd server
+npm install
+npm run dev
+
+# terminal 2: the website
+cd client
+npm install
+npm run dev
 ```
 
-The first start of the AI service is slow because it downloads the CLIP model
+Without the AI service running, the API uses a made-up AI result while you're
+developing, so the dashboard still has something to show. To run the real one
+you need Python 3.11. In a third terminal:
+
+```bash
+cd classifier
+python3.11 -m venv .venv
+.venv/bin/pip install torch==2.5.1 --index-url https://download.pytorch.org/whl/cpu
+.venv/bin/pip install -r requirements.txt
+.venv/bin/uvicorn app:app --port 8000
+```
+
+Then add `CLASSIFIER_URL=http://localhost:8000/classify` to `server/.env` and
+restart the API. The first start is slow because it downloads the CLIP model
 (about 600 MB). After that it is cached.
 
 ### 4. Open it
@@ -124,7 +141,7 @@ The first start of the AI service is slow because it downloads the CLIP model
 | Website | http://localhost:5173 |
 | Staff login | http://localhost:5173/officer/login |
 | API health check | http://localhost:5050/api/health |
-| AI service health check | http://localhost:8000/health |
+| AI service health check (if it's running) | http://localhost:8000/health |
 
 The API uses port **5050** on your computer instead of 5000, because on a Mac
 port 5000 is often already used by AirPlay.
@@ -132,7 +149,8 @@ port 5000 is often already used by AirPlay.
 ### 5. Make some staff accounts to log in with
 
 ```bash
-docker compose exec server node scripts/seedOfficers.js
+cd server
+node scripts/seedOfficers.js
 ```
 
 This makes two demo accounts:
@@ -145,15 +163,16 @@ This makes two demo accounts:
 If you want some example reports to play with as well:
 
 ```bash
-docker compose exec server node scripts/seedTrackingDemo.js
+node scripts/seedTrackingDemo.js
 ```
 
 ---
 
 ## Putting it online
 
-The website goes on Vercel, the API on Render and the AI photo check on
-Hugging Face Spaces (all free). Step-by-step guide: [DEPLOY.md](DEPLOY.md).
+The website goes on Vercel and the API on Render (both free), and the AI photo
+check on Google Cloud Run (free tier, needs a billing card). Step-by-step
+guide: [DEPLOY.md](DEPLOY.md).
 
 ---
 
@@ -174,37 +193,10 @@ whole thesis evaluation against the running classifier. The steps are in
 
 ---
 
-## Running without Docker (if you want to)
-
-You need Node.js 20.19+ (or 22.12+). Open two terminals:
-
-```bash
-# terminal 1: the API
-cd server
-npm install
-npm run dev        # http://localhost:5000
-
-# terminal 2: the website
-cd client
-npm install
-npm run dev        # http://localhost:5173
-```
-
-Without the Python service running, the API uses a made-up AI result while
-you're developing, so the dashboard still has something to show. To run the AI
-service yourself you need Python 3.11. See `classifier/Dockerfile` for the
-packages it installs.
-
----
-
 ## Some things I learned / problems I hit
 
-- **Docker port 5000 on Mac:** it clashed with AirPlay, which is why the API is
-  on 5050.
-- **New files in Docker:** if I added a new route or controller file, I
-  sometimes had to run `docker compose restart server` before it worked.
-- **New npm packages in Docker:** after adding a package I had to rebuild with
-  `docker compose up -d --build -V server`.
+- **Port 5000 on Mac:** it clashed with AirPlay, which is why the API is on
+  5050.
 - **The AI is not perfect:** dark or blurry road photos are harder for it,
   which is why it only gives a hint and never rejects a report by itself.
 

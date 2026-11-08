@@ -22,6 +22,9 @@ services:
       # Cloud Run service URL + /classify, e.g. https://merosadak-classifier-xxxx.europe-north1.run.app/classify
       - key: CLASSIFIER_URL
         sync: false
+      # how long to wait for the classifier, long enough for Cloud Run to wake up
+      - key: CLASSIFIER_TIMEOUT_MS
+        value: "60000"
       # your Vercel URL, e.g. https://merosadak.vercel.app
       - key: CLIENT_ORIGIN
         sync: false

@@ -43,13 +43,13 @@ const absoluteUrl = (p) =>
     ? p
     : `${(process.env.PUBLIC_API_URL || 'http://localhost:5050').replace(/\/$/, '')}${p}`
 
-// one call to the classifier. Returns { result, spamType, score } or throws
+// one call to the classifier. Returns { result, spamType, score, version } or throws
 async function callClassifierOnce({ photoUrl, category, thresholds }) {
   const endpoint = process.env.CLASSIFIER_URL
   if (!endpoint) {
     if (fakeEnabled()) {
       console.warn('[classifier] CLASSIFIER_URL not set — using deterministic stand-in')
-      return { result: fakeResult(`${photoUrl}|${category}`), spamType: null, score: null }
+      return { result: fakeResult(`${photoUrl}|${category}`), spamType: null, score: null, version: null }
     }
     throw new Error('classifier service not configured')
   }
@@ -58,17 +58,20 @@ async function callClassifierOnce({ photoUrl, category, thresholds }) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ imageUrl: absoluteUrl(photoUrl), category }),
-    signal: AbortSignal.timeout(8000),
+    // Cloud Run sleeps when idle and takes ~40s to wake, so Render sets this higher
+    signal: AbortSignal.timeout(Number(process.env.CLASSIFIER_TIMEOUT_MS) || 8000),
   })
   if (!res.ok) throw new Error(`classifier service returned ${res.status}`)
 
   const data = await res.json()
   const spamType = typeof data.spam === 'string' && data.spam ? data.spam : null
   const score = Number.isFinite(data.score) ? data.score : null
+  // the version the service says it is (e.g. clip-spam-v3)
+  const version = typeof data.version === 'string' && data.version ? data.version : null
   const label = String(data.label || '').toUpperCase()
-  if (CLASSIFIER_RESULTS.includes(label)) return { result: label, spamType, score }
+  if (CLASSIFIER_RESULTS.includes(label)) return { result: label, spamType, score, version }
   if (score !== null) {
-    return { result: bucketFromScore(score, thresholds), spamType, score }
+    return { result: bucketFromScore(score, thresholds), spamType, score, version }
   }
   throw new Error('classifier service returned an unrecognised payload')
 }
@@ -81,17 +84,19 @@ export async function runClassification(reportId, { trigger, officer } = {}) {
   if (!report) return null
 
   const config = await getClassifierConfig()
-  const version = config.activeVersion
+  // db label is only used if the service doesn't send its version
+  let version = config.activeVersion
   const runAt = new Date()
 
   let result = null
   let spamType = null
   let score = null
+  let serviceVersion = null
   if (!config.enabled) {
     console.warn(`[classifier] disabled — skipping report ${report.referenceId}`)
   } else {
     try {
-      ;({ result, spamType, score } = await callClassifierOnce({
+      ;({ result, spamType, score, version: serviceVersion } = await callClassifierOnce({
         photoUrl: report.photoUrl,
         category: report.category,
         thresholds: config.thresholds,
@@ -100,7 +105,7 @@ export async function runClassification(reportId, { trigger, officer } = {}) {
       console.error(`[classifier] attempt 1 failed for #${report.referenceId}:`, err.message)
       await delay(RETRY_DELAY_MS)
       try {
-        ;({ result, spamType, score } = await callClassifierOnce({
+        ;({ result, spamType, score, version: serviceVersion } = await callClassifierOnce({
           photoUrl: report.photoUrl,
           category: report.category,
           thresholds: config.thresholds,
@@ -115,6 +120,8 @@ export async function runClassification(reportId, { trigger, officer } = {}) {
       }
     }
   }
+
+  if (serviceVersion) version = serviceVersion
 
   // only keep spam type if the photo got flagged
   if (result === 'HIGH') spamType = null

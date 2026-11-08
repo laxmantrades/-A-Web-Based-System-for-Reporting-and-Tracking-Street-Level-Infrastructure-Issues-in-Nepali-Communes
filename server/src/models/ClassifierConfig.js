@@ -11,7 +11,7 @@ const classifierConfigSchema = new Schema(
   {
     key: { type: String, default: 'classifier', unique: true },
     enabled: { type: Boolean, default: true },
-    activeVersion: { type: String, default: 'clip-spam-v2' },
+    activeVersion: { type: String, default: 'clip-spam-v3' },
     thresholds: {
       high: { type: Number, default: 0.7, min: 0, max: 1 },
       medium: { type: Number, default: 0.3, min: 0, max: 1 },

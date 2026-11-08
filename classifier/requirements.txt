@@ -1,8 +1,8 @@
 # The Python packages the classifier needs. pip installs them with:
 #   pip install -r requirements.txt
 # The "==" means "exactly this version", so it works the same on every computer.
-# (torch is not in this list because the Dockerfile installs the smaller
-# CPU-only version of it separately.)
+# (torch is not in this list because the smaller CPU-only version of it gets
+# installed separately.)
 
 # FastAPI: the web framework. It lets me write the /classify and /health
 # endpoints as normal Python functions.

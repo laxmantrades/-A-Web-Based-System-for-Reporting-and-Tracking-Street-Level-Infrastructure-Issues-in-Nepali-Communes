@@ -1,5 +1,5 @@
-// One-off: delete originals of redacted reports that were already closed/rejected
-// before this rule existed. New reports do this automatically.
+// One-off: delete originals of redacted reports that are closed/rejected.
+// New reports do this automatically.
 //   node scripts/deleteFinalOriginals.js          dry run
 //   node scripts/deleteFinalOriginals.js --apply  really delete (can't undo)
 import 'dotenv/config'

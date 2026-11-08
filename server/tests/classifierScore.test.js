@@ -92,6 +92,8 @@ describe('Classifier raw score (stored only, never exposed)', () => {
     expect(saved.classifier.score).toBe(FIRST_SCORE)
     expect(saved.classifier.result).toEqual(expect.any(String))
     expect(saved.classifier.result).not.toBe('UNCLASSIFIED')
+    // version comes from the service, not the db label
+    expect(saved.classifier.version).toBe('clip-test')
     expect(classifierCalls()).toHaveLength(1)
   })
 

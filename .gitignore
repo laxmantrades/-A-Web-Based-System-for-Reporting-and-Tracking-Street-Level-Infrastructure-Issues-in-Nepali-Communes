@@ -11,14 +11,9 @@ client/dist/
 *.log
 .DS_Store
 
-
-# Docker (kept local, not committed)
-**/Dockerfile
-**/.dockerignore
-docker-compose.yml
-docker-compose.*.yml
 backups/
 
-# CLIP evaluation virtualenv
+# Python virtualenvs
 evaluation/.venv/
+classifier/.venv/
 evaluation/clip_eval/live_runs/

@@ -72,7 +72,7 @@ export const CLASSIFIER_META = {
   },
 }
 
-// names for spam types (same keys as classifier/prompts.py, plus old v2 ones)
+// names for spam types
 export const SPAM_TYPE_LABELS = {
   furniture: 'furniture (chair, sofa, table)',
   chart: 'a chart or trading screenshot',
@@ -86,7 +86,6 @@ export const SPAM_TYPE_LABELS = {
   indoor: 'an indoor room',
   landscape: 'a landscape',
   group: 'a photo of people',
-  // clip-spam-v2
   person: 'a person or selfie',
   artwork: 'a meme, cartoon or drawing',
   product: 'a product photo',

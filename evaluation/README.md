@@ -68,11 +68,15 @@ never touched. You should see `Tests: 39 passed, 39 total` at the end.
 
 ### CLIP evaluation, live (4.5)
 
-The evaluation talks to the **real classifier running in Docker**, so start
-it first and check that it answers:
+The evaluation talks to the **real classifier**, so start it first and check
+that it answers. The setup steps are in the [main README](../README.md#3-start-everything).
 
 ```bash
-docker compose up -d classifier
+# in its own terminal
+cd classifier
+.venv/bin/uvicorn app:app --port 8000
+
+# in another terminal
 curl http://127.0.0.1:8000/health
 # {"ok":true,"model":"openai/clip-vit-base-patch32","version":"clip-spam-v3"}
 ```
@@ -128,10 +132,9 @@ don't use that flag. `live_runs/` is not saved in git; delete it whenever you li
 
 **If something goes wrong**
 
-- `Connection refused`: the classifier isn't running. Use `docker compose up -d classifier` and wait until `/health` answers.
+- `Connection refused`: the classifier isn't running. Start it as above and wait until `/health` answers.
 - `does not match prompts.py thresholds … is the container out of date?`: the
-  container is running older code than the repo. Rebuild it with
-  `docker compose up -d --build classifier`.
+  classifier is running older code than the repo. Stop it and start it again.
 - `No module named matplotlib`: you used `python3` instead of
   `evaluation/.venv/bin/python`, or step 1 hasn't been done.
 
