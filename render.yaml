@@ -19,19 +19,19 @@ services:
         sync: false
       - key: CLOUDINARY_URL
         sync: false
-      # https://<hf-user>-merosadak-classifier.hf.space/classify
+      # Cloud Run service URL + /classify, e.g. https://merosadak-classifier-xxxx.europe-north1.run.app/classify
       - key: CLASSIFIER_URL
         sync: false
       # your Vercel URL, e.g. https://merosadak.vercel.app
       - key: CLIENT_ORIGIN
         sync: false
-      - key: SMTP_HOST
+      # Gmail API, because the free plan blocks SMTP (DEPLOY.md, step 2b)
+      - key: GMAIL_CLIENT_ID
         sync: false
-      - key: SMTP_PORT
+      - key: GMAIL_CLIENT_SECRET
         sync: false
-      - key: SMTP_USER
+      - key: GMAIL_REFRESH_TOKEN
         sync: false
-      - key: SMTP_PASS
-        sync: false
+      # e.g. MeroSadak <you@gmail.com>, must be the Gmail account you signed in with
       - key: MAIL_FROM
         sync: false

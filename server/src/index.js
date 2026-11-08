@@ -17,9 +17,6 @@ async function start() {
     process.exit(1)
   }
 
-  // TEMPORARY: shows hidden characters in CLIENT_ORIGIN, remove after the Render fix
-  console.log('[cors] raw CLIENT_ORIGIN:', JSON.stringify(process.env.CLIENT_ORIGIN))
-
   const app = createApp({ clientOrigin: process.env.CLIENT_ORIGIN })
 
   try {

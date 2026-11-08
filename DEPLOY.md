@@ -1,17 +1,17 @@
 # Putting MeroSadak online
 
-There are three parts, and each one goes to a different free host:
+There are three parts, and each one goes to a different host:
 
 | Part | Host | Why there |
 |---|---|---|
-| Website (`client/`) | **Vercel** | made for React/Vite sites |
-| API (`server/`) | **Render** | runs a normal Node server that stays on (Vercel can't, my rate limiter and caches live in memory) |
-| AI photo check (`classifier/`) | **Hugging Face Spaces** | free 16 GB RAM, CLIP needs about 2 GB |
+| Website (`client/`) | **Vercel** (free) | made for React/Vite sites |
+| API (`server/`) | **Render** (free) | runs a normal Node server that stays on (Vercel can't, my rate limiter and caches live in memory) |
+| AI photo check (`classifier/`) | **Google Cloud Run** (free tier, needs a billing card) | CLIP needs about 2 GB of memory, which free plans like Render's (512 MB) can't give. Cloud Run sleeps when unused, so light use stays inside the free tier. |
 
 The database (MongoDB Atlas) and photos (Cloudinary) are already in the cloud.
 
 ```
-Browser → Vercel ──/api/*──→ Render (API) ──→ Hugging Face (classifier)
+Browser → Vercel ──/api/*──→ Render (API) ──→ Google Cloud Run (classifier)
                                  ├─→ MongoDB Atlas
                                  └─→ Cloudinary
 ```
@@ -25,35 +25,60 @@ before.
 
 Render and Vercel both deploy straight from GitHub, so commit and push first.
 
-## 1. AI classifier → Hugging Face Spaces
+## 1. AI classifier → Google Cloud Run
 
-1. Make a free account at https://huggingface.co
-2. Go to https://huggingface.co/new-space
-   - Space name: `merosadak-classifier`
-   - SDK: **Docker** → **Blank**
-   - Hardware: **CPU basic (free)**
-   - Visibility: Public (Private Spaces can't be called from Render without a token)
-3. In the new Space open **Files → Add file → Upload files** and upload:
-   - `classifier/Dockerfile`
-   - `classifier/app.py`
-   - `classifier/prompts.py`
-   - `classifier/requirements.txt`
-   - `deploy/huggingface/README.md`. This one **replaces** the Space's README
-     (it tells Hugging Face to use Docker on port 8000).
-4. Wait for the build (about 5–10 minutes, it installs torch). The status goes
-   from *Building* to *Running*.
-5. Check it:
-   ```bash
-   curl https://<your-hf-username>-merosadak-classifier.hf.space/health
-   # {"ok":true,"model":"openai/clip-vit-base-patch32","version":"clip-spam-v3"}
-   ```
-   The first start downloads the model, so give it another minute if it
-   doesn't answer straight away.
+Cloud Run uses `classifier/Dockerfile.cloudrun`. It is the same as the normal
+`Dockerfile`, except the CLIP model is downloaded while the image is built, so
+the service doesn't download 600 MB every time it wakes up.
 
-Write down: `https://<your-hf-username>-merosadak-classifier.hf.space/classify`
+**In the browser (once):**
+1. Go to https://console.cloud.google.com and pick or create a project.
+2. **Billing → Link a billing account** (add a card). Cloud Run has a monthly
+   free tier, but Google needs billing switched on to use it.
+3. **Billing → Budgets & alerts → Create budget** of €5, so you get an email
+   long before any real cost.
 
-> A free Space goes to sleep after ~48 hours with no use. The first report
-> after that comes back **UNCLASSIFIED** (my API only waits 8 s). The report is
+**In the terminal** (install with `brew install --cask gcloud-cli`):
+```bash
+gcloud auth login
+gcloud config set project <your-project-id>
+
+# Switch on the services (once)
+gcloud services enable run.googleapis.com cloudbuild.googleapis.com artifactregistry.googleapis.com
+gcloud artifacts repositories create merosadak --repository-format=docker --location=europe-north1
+
+# Build the image on Google's machines (about 10 minutes, it installs torch)
+gcloud builds submit classifier --config deploy/cloudrun/cloudbuild.yaml
+
+# Run it
+gcloud run deploy merosadak-classifier \
+  --image europe-north1-docker.pkg.dev/<your-project-id>/merosadak/classifier:clip-spam-v3 \
+  --region europe-north1 --memory 2Gi --cpu 1 \
+  --min-instances 0 --max-instances 1 --concurrency 4 \
+  --cpu-boost --allow-unauthenticated
+```
+
+It prints a **Service URL**. Check it:
+```bash
+curl https://<service-url>/health
+# {"ok":true,"model":"openai/clip-vit-base-patch32","version":"clip-spam-v3"}
+```
+
+Write down: `https://<service-url>/classify`
+
+**Live now (5 Nov 2026):** project `tokyo-analyst-441810-u7`, region
+`europe-north1`, service `merosadak-classifier`:
+`https://merosadak-classifier-1056206524523.europe-north1.run.app/classify`
+
+What the settings mean:
+- `--memory 2Gi`: CLIP needs about 2 GB.
+- `--min-instances 0`: it sleeps when nobody uses it, so it costs nothing while idle.
+- `--max-instances 1`: never more than one copy, which keeps the cost low even if someone floods it.
+- `--cpu-boost`: extra CPU while starting up, so it wakes faster.
+- `--allow-unauthenticated`: Render can call it without a Google login (see "Important" below).
+
+> After a quiet period it has to wake up first, which can take longer than the
+> 8 seconds my API waits. That report comes back **UNCLASSIFIED**. The report is
 > still saved, and an officer can press **Re-classify**.
 
 ## 2. API → Render
@@ -69,7 +94,8 @@ Write down: `https://<your-hf-username>-merosadak-classifier.hf.space/classify`
    | `CLOUDINARY_URL` | same as in `server/.env` |
    | `CLASSIFIER_URL` | the `/classify` URL from step 1 |
    | `CLIENT_ORIGIN` | leave as `http://localhost` for now, fixed in step 4 |
-   | `SMTP_*`, `MAIL_FROM` | same as in `server/.env` (or leave empty, then emails are only logged) |
+   | `MAIL_FROM` | `MeroSadak <you@gmail.com>`, your own Gmail address |
+   | `GMAIL_*` | from step 2b (leave empty for now, emails are only logged until then) |
 
 4. Deploy, then check:
    ```bash
@@ -84,6 +110,51 @@ The database password still protects it.
 
 > The free plan sleeps after 15 minutes with no visitors. The first request
 > after that takes about a minute; just refresh.
+
+## 2b. Email → Gmail API
+
+Render's free plan blocks SMTP, so the App Password from `server/.env` can't
+send email there. The Gmail API still sends from my Gmail address, but over
+HTTPS. My laptop keeps using SMTP.
+
+**In Google Cloud** (https://console.cloud.google.com, any project):
+
+1. **APIs & Services → Library** → search **Gmail API** → **Enable**.
+2. **Google Auth Platform → Branding**: fill in an app name and your email.
+3. **Audience**: choose **External**, then press **Publish app** so the status
+   says **In production**. This matters: in *Testing* status Google cancels the
+   permission after 7 days and email stops working.
+4. **Clients → Create client** → type **Desktop app**. Keep the client ID and
+   client secret for the next step.
+
+**On my laptop**, get the refresh token (the server's packages must be installed):
+
+```bash
+cd server
+GMAIL_CLIENT_ID="paste-id" GMAIL_CLIENT_SECRET="paste-secret" node scripts/gmailRefreshToken.js
+```
+
+Open the link it prints and sign in with the Gmail account that should send the
+emails. Google warns that the app isn't verified, which is normal for my own
+project: press **Advanced → Go to (app name)** and allow it. The terminal then
+prints the refresh token.
+
+**On Render** → **Environment**, add these and save:
+
+| Key | Value |
+|---|---|
+| `GMAIL_CLIENT_ID` | the client ID |
+| `GMAIL_CLIENT_SECRET` | the client secret |
+| `GMAIL_REFRESH_TOKEN` | the token from the script |
+| `MAIL_FROM` | `MeroSadak <you@gmail.com>` |
+
+After it restarts, the Render logs should say `[mail] Gmail API ready`. If it
+says `Gmail API check failed`, one of the three values is wrong or the token
+was cancelled. Changing my Google password also cancels it, so then I run the
+script again and update `GMAIL_REFRESH_TOKEN`.
+
+These values let an app send email as me, so they only go in Render, never in
+git or a chat.
 
 ## 3. Website → Vercel
 
@@ -114,6 +185,8 @@ Render restarts the API.
 - [ ] Staff login works (`/officer/login`)
 - [ ] The new report shows an AI result (not UNCLASSIFIED) after a few seconds
 - [ ] Track by email works
+- [ ] The confirmation email arrives after submitting a report (check spam too)
+- [ ] Forgot password sends a code to a staff email
 
 **Rate limiter check.** Requests pass through two proxies (Vercel, then
 Render), which is why `TRUST_PROXY` is `2`. To check it: on your phone (mobile
@@ -130,6 +203,7 @@ work. If the laptop is blocked too, everyone is sharing one counter. Change
   accounts and deactivate the demo ones).
 - The classifier URL is public. It only downloads images from Cloudinary, so it
   can't be used to attack other sites, but anyone could send it photos.
+  `--max-instances 1` and the budget alert keep the cost of that low.
 - Same database as local: reports you make locally show up online too. To keep
   them apart, make a second database in Atlas (for example `merosadak-prod`)
   and use that in `MONGODB_URI` on Render.

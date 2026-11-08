@@ -5,7 +5,14 @@ import nodemailer from 'nodemailer'
 //   SMTP_SECURE - "true" for TLS (default only on port 465)
 //   MAIL_FROM   - From address
 // Gmail: smtp.gmail.com, port 465, and a 16-char App Password.
+//
+// Render's free plan blocks SMTP, so online we use the Gmail API over HTTPS.
+// If these are set they are used instead of SMTP (see DEPLOY.md):
+//   GMAIL_CLIENT_ID, GMAIL_CLIENT_SECRET, GMAIL_REFRESH_TOKEN
 const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_SECURE, MAIL_FROM } = process.env
+const { GMAIL_CLIENT_ID, GMAIL_CLIENT_SECRET, GMAIL_REFRESH_TOKEN } = process.env
+
+const useGmailApi = Boolean(GMAIL_CLIENT_ID && GMAIL_CLIENT_SECRET && GMAIL_REFRESH_TOKEN)
 
 const port = Number(SMTP_PORT) || 587
 
@@ -20,8 +27,57 @@ const transporter = SMTP_HOST
 
 const FROM = MAIL_FROM || (SMTP_USER ? `MeroSadak <${SMTP_USER}>` : 'MeroSadak <no-reply@merosadak.local>')
 
-// test the SMTP login at startup so a wrong password shows up early
+let gmailToken = null // { value, expiresAt }
+
+// get a short-lived access token, reuses it until it's about to expire
+async function getGmailToken() {
+  if (gmailToken && Date.now() < gmailToken.expiresAt) return gmailToken.value
+
+  const res = await fetch('https://oauth2.googleapis.com/token', {
+    method: 'POST',
+    body: new URLSearchParams({
+      client_id: GMAIL_CLIENT_ID,
+      client_secret: GMAIL_CLIENT_SECRET,
+      refresh_token: GMAIL_REFRESH_TOKEN,
+      grant_type: 'refresh_token',
+    }),
+    signal: AbortSignal.timeout(10_000),
+  })
+  if (!res.ok) throw new Error(`Gmail token request returned ${res.status}`)
+
+  const data = await res.json()
+  gmailToken = { value: data.access_token, expiresAt: Date.now() + (data.expires_in - 60) * 1000 }
+  return gmailToken.value
+}
+
+// send through the Gmail API. nodemailer only builds the email here, it doesn't send it
+async function sendWithGmailApi(mail) {
+  const builder = nodemailer.createTransport({ streamTransport: true, buffer: true })
+  const { message } = await builder.sendMail(mail)
+
+  const res = await fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${await getGmailToken()}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ raw: message.toString('base64url') }),
+    signal: AbortSignal.timeout(10_000),
+  })
+  if (!res.ok) throw new Error(`Gmail API returned ${res.status}`)
+}
+
+// test the email login at startup so a wrong password shows up early
 export async function verifyMailer() {
+  if (useGmailApi) {
+    try {
+      await getGmailToken()
+      console.log('[mail] Gmail API ready')
+    } catch (err) {
+      console.error('[mail] Gmail API check failed:', err.message)
+    }
+    return
+  }
   if (!transporter) {
     console.log('[mail] SMTP not configured — emails will be printed to the console')
     return
@@ -35,6 +91,10 @@ export async function verifyMailer() {
 }
 
 async function send({ to, subject, text, html }) {
+  if (useGmailApi) {
+    await sendWithGmailApi({ from: FROM, to, subject, text, html })
+    return
+  }
   if (!transporter) {
     console.log(
       `[mail] (not configured) would send to ${to}\n` +
