@@ -121,9 +121,10 @@ HTTPS. My laptop keeps using SMTP.
 
 1. **APIs & Services → Library** → search **Gmail API** → **Enable**.
 2. **Google Auth Platform → Branding**: fill in an app name and your email.
-3. **Audience**: choose **External**, then press **Publish app** so the status
-   says **In production**. This matters: in *Testing* status Google cancels the
-   permission after 7 days and email stops working.
+3. **Audience**: choose **External**, keep the status on **Testing**, and under
+   **Test users** add my Gmail address. Publishing asked for a domain, and
+   `vercel.app` isn't accepted. In Testing, Google cancels the token after
+   **7 days**, so email stops until I renew it (see below).
 4. **Clients → Create client** → type **Desktop app**. Keep the client ID and
    client secret for the next step.
 
@@ -152,6 +153,10 @@ After it restarts, the Render logs should say `[mail] Gmail API ready`. If it
 says `Gmail API check failed`, one of the three values is wrong or the token
 was cancelled. Changing my Google password also cancels it, so then I run the
 script again and update `GMAIL_REFRESH_TOKEN`.
+
+**Renewing every 7 days:** run the script again with the same client ID and
+secret, then replace `GMAIL_REFRESH_TOKEN` on Render and save. Renew it before
+any demo or viva, so it can't expire on the day.
 
 These values let an app send email as me, so they only go in Render, never in
 git or a chat.
