@@ -7,6 +7,30 @@ import reportRoutes from './routes/reportRoutes.js'
 import officerRoutes from './routes/officerRoutes.js'
 import { notFound, errorHandler } from './middleware/errorHandler.js'
 
+// turns CLIENT_ORIGIN into clean origins for cors (comma separated, can have
+// stray spaces, quotes or trailing slashes)
+function parseOrigins(raw) {
+  if (!raw) return true // not set: allow any origin
+
+  const origins = raw
+    .split(',')
+    .map((entry) =>
+      entry
+        .trim()
+        .replace(/^["'“”‘’]+|["'“”‘’]+$/g, '')
+        .trim()
+        .replace(/\/+$/, ''),
+    )
+    // only visible ASCII is safe in a header, so bad entries get dropped
+    .filter((entry) => /^[\x21-\x7e]+$/.test(entry))
+
+  if (origins.length === 0) {
+    console.warn('[cors] CLIENT_ORIGIN has no valid origin, cross-site requests are off')
+    return false
+  }
+  return origins.length === 1 ? origins[0] : origins
+}
+
 // Builds the express app. Separate from index.js so tests can use it
 // without opening a port or a db connection.
 export function createApp({ clientOrigin } = {}) {
@@ -14,7 +38,7 @@ export function createApp({ clientOrigin } = {}) {
 
   // --- middleware ---
   // credentials: lets the browser send the officer cookie
-  app.use(cors({ origin: clientOrigin || true, credentials: true }))
+  app.use(cors({ origin: parseOrigins(clientOrigin), credentials: true }))
   app.use(express.json()) // read JSON bodies
   app.use(cookieParser()) // read cookies
   app.use(morgan('dev')) // log each request
