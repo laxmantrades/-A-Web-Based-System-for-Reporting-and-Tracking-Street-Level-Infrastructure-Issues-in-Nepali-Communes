@@ -148,17 +148,21 @@ port 5000 is often already used by AirPlay.
 
 ### 5. Make some staff accounts to log in with
 
+Choose your own two passwords:
+
 ```bash
 cd server
-node scripts/seedOfficers.js
+SEED_OFFICER_PASSWORD="choose-one" SEED_ADMIN_PASSWORD="choose-another" node scripts/seedOfficers.js
 ```
 
 This makes two demo accounts:
 
-| Email | Password | Role |
-| --- | --- | --- |
-| `officer@ward.gov.np` | `officer1234` | Ward officer (asks you to change the password on first login) |
-| `admin@ward.gov.np` | `admin123456` | Admin |
+| Email | Role |
+| --- | --- |
+| `officer@ward.gov.np` | Ward officer (asks you to change the password on first login) |
+| `admin@ward.gov.np` | Admin |
+
+Running it again resets both accounts to the passwords you give it.
 
 If you want some example reports to play with as well:
 

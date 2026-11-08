@@ -172,10 +172,8 @@ work. If the laptop is blocked too, everyone is sharing one counter. Change
 
 ## Important before sharing the link
 
-- **Change the demo passwords.** The README lists `admin@ward.gov.np` /
-  `admin123456`, and the online site uses the same Atlas database as my laptop,
-  so those accounts exist online. Log in and change them (or make new staff
-  accounts and deactivate the demo ones).
+- **Use strong staff passwords.** The online site uses the same Atlas database
+  as my laptop, so the demo accounts exist online too.
 - The classifier URL is public. It only downloads images from Cloudinary, so it
   can't be used to attack other sites, but anyone could send it photos.
   The one-copy limit and the budget alert keep the cost of that low.

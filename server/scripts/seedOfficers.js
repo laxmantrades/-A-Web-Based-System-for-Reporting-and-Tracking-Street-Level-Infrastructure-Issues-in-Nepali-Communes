@@ -1,5 +1,6 @@
 // Creates two demo staff accounts.
-//   cd server && node scripts/seedOfficers.js
+//   cd server
+//   SEED_OFFICER_PASSWORD="..." SEED_ADMIN_PASSWORD="..." node scripts/seedOfficers.js
 // Running it again resets them (password, active, lockout).
 import 'dotenv/config'
 
@@ -16,7 +17,7 @@ const ACCOUNTS = [
     role: 'officer',
     ward: 5,
     jobTitle: 'Ward Engineer',
-    password: 'officer1234',
+    password: process.env.SEED_OFFICER_PASSWORD,
     mustChangePassword: true, // forces password change on first login
   },
   {
@@ -25,12 +26,16 @@ const ACCOUNTS = [
     role: 'admin',
     ward: null,
     jobTitle: 'Municipal Administrator',
-    password: 'admin123456',
+    password: process.env.SEED_ADMIN_PASSWORD,
     mustChangePassword: false,
   },
 ]
 
 async function main() {
+  if (ACCOUNTS.some((a) => !a.password)) {
+    throw new Error('set SEED_OFFICER_PASSWORD and SEED_ADMIN_PASSWORD')
+  }
+
   await connectDatabase(process.env.MONGODB_URI)
 
   for (const a of ACCOUNTS) {
@@ -54,7 +59,7 @@ async function main() {
       { upsert: true, new: true, setDefaultsOnInsert: true },
     )
     console.log(
-      `${a.role.padEnd(7)} ${a.email}  /  ${a.password}` +
+      `${a.role.padEnd(7)} ${a.email}` +
         (a.mustChangePassword ? '  (must change on first login)' : ''),
     )
   }
