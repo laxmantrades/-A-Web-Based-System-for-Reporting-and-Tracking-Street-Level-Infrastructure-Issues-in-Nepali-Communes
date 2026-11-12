@@ -1,24 +1,6 @@
-<div align="center">
+# MeroSadak
 
-# 🛣️ MeroSadak
-
-**मेरो सडक · "my street"**
-
-Report a problem on your street in Nepal, then follow it until it's fixed.
-
-[![Live website](https://img.shields.io/badge/Live_website-merosadak--an.vercel.app-000000?style=for-the-badge&logo=vercel)](https://merosadak-an.vercel.app/)
-[![API](https://img.shields.io/badge/API-Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://a-web-based-system-for-reporting-and.onrender.com/api/health)
-
-![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
-![Vite](https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?logo=tailwindcss&logoColor=white)
-![Node.js](https://img.shields.io/badge/Node.js-20.19+-339933?logo=nodedotjs&logoColor=white)
-![Express](https://img.shields.io/badge/Express-4-000000?logo=express&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?logo=mongodb&logoColor=white)
-![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)
-![CLIP](https://img.shields.io/badge/AI-CLIP-412991)
-
-</div>
+**"मेरो सडक" means "my street".**
 
 MeroSadak is my final-year project for BSc (Hons) Computer Science. It is a
 website where people in Nepal can report problems on their street, like a
@@ -29,33 +11,33 @@ reports and update them.
 The full project title is *A Web-Based System for Reporting and Tracking
 Street-Level Infrastructure Issues in Nepali Communes*.
 
-> [!NOTE]
 > This is a student prototype. It works, but it is not a real government
 > service, so please don't use it to report real problems.
 
-> [!TIP]
-> The API runs on Render's free plan and goes to sleep when nobody is using
-> it. If the live website is slow the first time, wait up to a minute and
-> refresh.
+**Live version:**
 
-## Contents
+- Website: <https://merosadak-an.vercel.app/>
+- API: <https://a-web-based-system-for-reporting-and.onrender.com>
 
-- [Quick start (for markers)](#-quick-start-for-markers)
-- [What it does](#-what-it-does)
-- [The AI photo check](#-the-ai-photo-check)
-- [How it fits together](#-how-it-fits-together)
-- [Run it from GitHub](#-run-it-from-github)
-- [Running the tests](#-running-the-tests)
-- [Putting it online](#-putting-it-online)
-- [Things I learned](#-things-i-learned)
-- [Privacy notes](#-privacy-notes)
+The API is on Render's free plan, so it goes to sleep when nobody is using it.
+If the website is slow the first time, wait up to a minute and refresh.
+
+**Contents:**
+[Quick start](#quick-start-for-markers) ·
+[What it does](#what-it-does) ·
+[The AI photo check](#the-ai-photo-check) ·
+[How it fits together](#how-it-fits-together) ·
+[Run it from GitHub](#run-it-from-github) ·
+[Tests](#running-the-tests) ·
+[Putting it online](#putting-it-online) ·
+[Privacy](#privacy-notes)
 
 ---
 
-## 🚀 Quick start (for markers)
+## Quick start (for markers)
 
-The easiest way to see the project is the
-**[live website](https://merosadak-an.vercel.app/)**. Nothing needs installing.
+The easiest way to see the project is the live website above. Nothing needs
+installing.
 
 To run it on your own computer from the submitted zip:
 
@@ -83,19 +65,20 @@ To run it on your own computer from the submitted zip:
    npm run dev
    ```
 
-5. Go to **<http://localhost:5173>** in your browser.
+5. Go to <http://localhost:5173> in your browser.
 
 The commands are the same on Windows, macOS and Linux. The first
 `npm install` takes a few minutes.
 
-| | |
-| --- | --- |
-| 👮 **Staff dashboard** | <http://localhost:5173/officer/login>. Use the staff login details I gave with my submission. |
-| 🤖 **AI photo check** | Optional. Without it, the API uses a made-up AI result so the dashboard still works. To run the real one, see [step 3](#3-start-everything) (needs Python 3.11). |
-| 📧 **Emails** | Not sent from the zip copy. Reset codes and report updates are printed in the API terminal instead. |
+- **Staff dashboard:** go to <http://localhost:5173/officer/login> and use the
+  staff login details I gave with my submission.
+- **AI photo check:** this is optional. Without it, the API uses a made-up AI
+  result so the dashboard still works. To run the real one, see
+  [step 3](#3-start-everything) (needs Python 3.11).
+- **Emails:** the zip copy doesn't send real emails. Reset codes and report
+  updates are printed in the API terminal instead.
 
-<details>
-<summary><b>If something goes wrong</b></summary>
+If something goes wrong:
 
 | Problem | Fix |
 | --- | --- |
@@ -104,44 +87,31 @@ The commands are the same on Windows, macOS and Linux. The first
 | `EADDRINUSE` / port already in use | Close whatever is using port 5050 or 5173, or restart the computer |
 | API says it can't connect to MongoDB | Check your internet connection. Some university networks block MongoDB's port 27017, so try another network |
 
-</details>
-
 ---
 
-## ✨ What it does
+## What it does
 
-<table>
-<tr>
-<td width="50%" valign="top">
+**For citizens (no account needed):**
 
-### 🧑‍🤝‍🧑 For citizens
-*No account needed*
-
-- 📸 Report a problem with a photo. Pick one of six types: pothole, damaged
+- Report a problem with a photo. You pick one of six types: pothole, damaged
   road sign, broken streetlight, faded road markings, damaged footpath, or
   blocked roadside drain.
-- 📍 Say where it is. Press **"Use my location"** or type a description like
-  *"Ward 6, near Shree Ganesh Temple"*.
-- 🔢 Get a reference number (something like **#42**) and use it to track
-  your report.
-- 🗂️ Browse reports that other people have made on the public reports page.
+- Say where it is. You can press **"Use my location"** or type a description
+  like *"Ward 6, near Shree Ganesh Temple"*.
+- Get a reference number (something like **#42**) and use it to track your
+  report.
+- Browse reports that other people have made on the public reports page.
 
-</td>
-<td width="50%" valign="top">
+**For ward staff (login needed):**
 
-### 🏛️ For ward staff
-*Login needed*
+- See a queue of new reports and move each one through the steps shown
+  below.
+- See the place on a map if the citizen shared their location.
+- Black out faces and number plates in a photo before it goes public.
+- Look at simple analytics, manage staff accounts, and add notes.
 
-- 📥 See a queue of new reports and move each one through the steps below.
-- 🗺️ See the place on a map if the citizen shared their location.
-- 🙈 Black out faces and number plates in a photo before it goes public.
-- 📊 Look at simple analytics, manage staff accounts, and add notes.
-
-</td>
-</tr>
-</table>
-
-**The life of a report:**
+The steps a report goes through. Staff can only reject a report while it is
+still in Needs Review or In Review.
 
 ```mermaid
 flowchart LR
@@ -152,57 +122,54 @@ flowchart LR
 
 ---
 
-## 🤖 The AI photo check
+## The AI photo check
 
 When someone submits a photo, a small AI model called
 [CLIP](https://openai.com/research/clip) looks at it and guesses whether it is
 a real street photo or spam (for example a picture of a chair, a selfie, or a
-screenshot of a trading chart). Staff see one of three labels:
+screenshot of a trading chart). Staff see one of three labels: **Looks
+genuine**, **Unsure** or **Likely spam**. It is only a hint. A person always
+makes the final decision, and citizens never see the label.
 
-| 🟢 Looks genuine | 🟡 Unsure | 🔴 Likely spam |
-| :---: | :---: | :---: |
-| Looks like a real street photo | Worth a quick look | Probably not a street photo |
+This is how the three labels look on the staff dashboard:
 
-It is only a hint. **A person always makes the final decision**, and citizens
-never see the label.
+<img src="evaluation/demo/screenshots/fig_ai_photo_check_states.png" alt="The three AI photo check labels on the staff dashboard" width="480">
 
-<p align="center">
-  <img src="evaluation/demo/screenshots/fig_ai_photo_check_states.png" alt="The three AI photo check labels as staff see them on the dashboard" width="520">
-</p>
+I tested it on 114 photos it had never seen before (54 real street photos and
+60 spam photos):
 
-**How well it works** (test set of 114 photos the model had never seen):
-
-| Result | Score |
+| Result | Count |
 | --- | --- |
-| Correct when it gave a clear answer | **113 / 113 (100%)** |
-| Real street photos wrongly marked as spam | **0 / 54** |
-| Spam wrongly marked as genuine | **0 / 60** |
-| Said "Unsure" | 1 / 114 |
+| Correct, when it gave a clear answer | 113 of 113 |
+| Real street photos marked as spam | 0 of 54 |
+| Spam marked as genuine | 0 of 60 |
+| Said "Unsure" | 1 of 114 |
 
-The full evaluation, charts and how to re-run it are in
-[evaluation/README.md](evaluation/README.md).
+It still finds dark or blurry road photos harder, which is why it only gives a
+hint and never rejects a report by itself. The full evaluation and how to
+re-run it are in [evaluation/README.md](evaluation/README.md).
 
 ---
 
-## 🧩 How it fits together
+## How it fits together
 
 ```mermaid
 flowchart LR
-    U["👤 Citizen / staff<br/>browser"] --> W["🌐 Website<br/>React · Vercel"]
-    W -- "/api" --> S["⚙️ API<br/>Express · Render"]
-    S --> DB[("🗄️ MongoDB Atlas")]
-    S --> C["🖼️ Cloudinary<br/>photos"]
-    S --> AI["🤖 AI photo check<br/>CLIP · Cloud Run"]
-    S --> M["📧 Gmail<br/>emails"]
+    U[Browser] --> W[Website<br/>React on Vercel]
+    W -- "/api" --> S[API<br/>Express on Render]
+    S --> DB[(MongoDB Atlas)]
+    S --> C[Cloudinary<br/>photos]
+    S --> AI[AI photo check<br/>CLIP on Cloud Run]
+    S --> M[Gmail<br/>emails]
 ```
 
 | Part | Tech | Folder |
 | --- | --- | --- |
-| Website (frontend) | React, Vite, Tailwind CSS, React Router | [`client/`](client/) |
-| API (backend) | Node.js, Express, Mongoose | [`server/`](server/) |
+| Website (frontend) | React, Vite, Tailwind CSS, React Router | `client/` |
+| API (backend) | Node.js, Express, Mongoose | `server/` |
 | Database | MongoDB Atlas (in the cloud) | n/a |
 | Photo storage | Cloudinary | n/a |
-| AI photo check | Python, FastAPI, CLIP (`openai/clip-vit-base-patch32`) | [`classifier/`](classifier/) |
+| AI photo check | Python, FastAPI, CLIP (`openai/clip-vit-base-patch32`) | `classifier/` |
 | Maps | Leaflet with OpenStreetMap | n/a |
 
 ```
@@ -216,10 +183,10 @@ flowchart LR
 
 ---
 
-## 💻 Run it from GitHub
+## Run it from GitHub
 
 These steps are for running it from a GitHub clone. If you have the submitted
-zip, use the [Quick start](#-quick-start-for-markers) above instead.
+zip, use the [Quick start](#quick-start-for-markers) above instead.
 
 ```bash
 git clone https://github.com/laxmantrades/-A-Web-Based-System-for-Reporting-and-Tracking-Street-Level-Infrastructure-Issues-in-Nepali-Communes.git MeroSadak
@@ -250,29 +217,20 @@ CLIENT_ORIGIN=http://localhost:5173
 
 # Optional: the AI photo check (see step 3). Leave out to use a made-up result.
 CLASSIFIER_URL=http://localhost:8000/classify
-```
 
-<details>
-<summary><b>Optional: sending real emails</b></summary>
-
-Without these, emails are just printed in the API terminal.
-
-```bash
+# Optional: for sending real emails (otherwise emails are just printed in the logs)
 # Option A: Gmail SMTP with an App Password
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=465
 SMTP_USER=you@gmail.com
 SMTP_PASS=your-app-password
 MAIL_FROM="MeroSadak <you@gmail.com>"
-
 # Option B: Gmail API (used on Render, where SMTP is blocked).
 # Get the refresh token with: node scripts/gmailRefreshToken.js
 GMAIL_CLIENT_ID=...
 GMAIL_CLIENT_SECRET=...
 GMAIL_REFRESH_TOKEN=...
 ```
-
-</details>
 
 A few rules for the file:
 
@@ -323,10 +281,10 @@ restart the API. The first start is slow because it downloads the CLIP model
 
 | What | Where |
 | --- | --- |
-| Website | <http://localhost:5173> |
-| Staff login | <http://localhost:5173/officer/login> |
-| API health check | <http://localhost:5050/api/health> |
-| AI service health check (if it's running) | <http://localhost:8000/health> |
+| Website | http://localhost:5173 |
+| Staff login | http://localhost:5173/officer/login |
+| API health check | http://localhost:5050/api/health |
+| AI service health check (if it's running) | http://localhost:8000/health |
 
 ### 5. Staff accounts
 
@@ -348,7 +306,7 @@ node scripts/seedTrackingDemo.js
 
 ---
 
-## 🧪 Running the tests
+## Running the tests
 
 The backend has automated tests written with Jest. They use a temporary
 in-memory database, so they don't touch your real data.
@@ -365,20 +323,15 @@ whole thesis evaluation against the running classifier. The steps are in
 
 ---
 
-## ☁️ Putting it online
+## Putting it online
 
-| Part | Where it runs | Cost |
-| --- | --- | --- |
-| Website | [Vercel](https://merosadak-an.vercel.app/) | Free |
-| API | [Render](https://a-web-based-system-for-reporting-and.onrender.com/api/health) | Free |
-| AI photo check | Google Cloud Run | Free tier (needs a billing card) |
-
-Step-by-step guide: **[DEPLOY.md](DEPLOY.md)**.
+The website goes on Vercel and the API on Render (both free), and the AI photo
+check on Google Cloud Run (free tier, needs a billing card). Step-by-step
+guide: [DEPLOY.md](DEPLOY.md).
 
 ---
 
-
-## 🔒 Privacy notes
+## Privacy notes
 
 - Citizens don't need an account. Their email is only used to send updates.
 - Faces and number plates can be blacked out by staff before a photo is shown
@@ -388,8 +341,4 @@ Step-by-step guide: **[DEPLOY.md](DEPLOY.md)**.
 
 ---
 
-<div align="center">
-
 *Made by Laxman Giri as a final-year project.*
-
-</div>

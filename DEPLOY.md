@@ -133,8 +133,10 @@ git or a chat.
 
 ## 3. Website → Vercel
 
-1. Open `client/vercel.json` and replace `YOUR-BACKEND.onrender.com` with your
-   Render URL from step 2. Commit and push.
+1. Open `client/vercel.json` and check the `/api` line points to your Render
+   URL from step 2. Mine is already set to
+   `https://a-web-based-system-for-reporting-and.onrender.com`. If yours is
+   different, change it, then commit and push.
 2. Make a free account at https://vercel.com, then **Add New → Project** → import
    this repo.
 3. Set **Root Directory** to `client`. Vercel finds Vite by itself
@@ -173,7 +175,7 @@ work. If the laptop is blocked too, everyone is sharing one counter. Change
 ## Important before sharing the link
 
 - **Use strong staff passwords.** The online site uses the same Atlas database
-  as my laptop, so the demo accounts exist online too.
+  as my laptop, so the staff accounts I use locally exist online too.
 - The classifier URL is public. It only downloads images from Cloudinary, so it
   can't be used to attack other sites, but anyone could send it photos.
   The one-copy limit and the budget alert keep the cost of that low.
