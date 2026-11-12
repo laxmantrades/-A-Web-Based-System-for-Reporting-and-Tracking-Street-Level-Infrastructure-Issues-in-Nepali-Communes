@@ -22,72 +22,34 @@ Street-Level Infrastructure Issues in Nepali Communes*.
 The API is on Render's free plan, so it goes to sleep when nobody is using it.
 If the website is slow the first time, wait up to a minute and refresh.
 
-**Contents:**
-[Quick start](#quick-start-for-markers) ·
-[What it does](#what-it-does) ·
-[The AI photo check](#the-ai-photo-check) ·
-[How it fits together](#how-it-fits-together) ·
-[Run it from GitHub](#run-it-from-github) ·
-[Tests](#running-the-tests) ·
-[Putting it online](#putting-it-online) ·
-[Privacy](#privacy-notes)
+---
+
+## Table of contents
+
+**About the project**
+
+1. [What it does](#what-it-does)
+2. [The AI photo check](#the-ai-photo-check)
+3. [How it fits together](#how-it-fits-together)
+4. [What it's built with](#what-its-built-with)
+5. [Folder layout](#folder-layout)
+6. [Privacy notes](#privacy-notes)
+
+**Running it yourself**
+
+7. [Before you start](#before-you-start)
+8. [Option A: from the submitted zip](#option-a-from-the-submitted-zip)
+9. [Option B: from GitHub](#option-b-from-github)
+10. [Running the AI photo check locally](#running-the-ai-photo-check-locally)
+11. [Staff accounts](#staff-accounts)
+12. [Useful addresses](#useful-addresses)
+13. [If something goes wrong](#if-something-goes-wrong)
+14. [Running the tests](#running-the-tests)
+15. [Putting it online](#putting-it-online)
 
 ---
 
-## Quick start (for markers)
-
-The easiest way to see the project is the live website above. Nothing needs
-installing.
-
-To run it on your own computer from the submitted zip:
-
-1. Install [Node.js](https://nodejs.org/) version 20.19 or newer (the "LTS"
-   download is fine). Check it with `node -v`.
-2. Unzip the folder. The settings file `server/.env` is already included, so
-   you don't need to set anything up. It connects to my online database and
-   photo storage.
-3. Open a terminal in the unzipped folder and start the API:
-
-   ```bash
-   cd server
-   npm install
-   npm run dev
-   ```
-
-   Leave it running. It should say it is listening on port 5050 and connected
-   to MongoDB.
-
-4. Open a **second** terminal in the same folder and start the website:
-
-   ```bash
-   cd client
-   npm install
-   npm run dev
-   ```
-
-5. Go to <http://localhost:5173> in your browser.
-
-The commands are the same on Windows, macOS and Linux. The first
-`npm install` takes a few minutes.
-
-- **Staff dashboard:** go to <http://localhost:5173/officer/login> and use the
-  staff login details I gave with my submission.
-- **AI photo check:** this is optional. Without it, the API uses a made-up AI
-  result so the dashboard still works. To run the real one, see
-  [step 3](#3-start-everything) (needs Python 3.11).
-- **Emails:** the zip copy doesn't send real emails. Reset codes and report
-  updates are printed in the API terminal instead.
-
-If something goes wrong:
-
-| Problem | Fix |
-| --- | --- |
-| `npm` or `node` not found | Install Node.js (step 1), then open a new terminal |
-| Website loads but shows no reports / errors | Make sure the API terminal (step 3) is still running |
-| `EADDRINUSE` / port already in use | Close whatever is using port 5050 or 5173, or restart the computer |
-| API says it can't connect to MongoDB | Check your internet connection. Some university networks block MongoDB's port 27017, so try another network |
-
----
+# About the project
 
 ## What it does
 
@@ -120,8 +82,6 @@ flowchart LR
     B -.-> R
 ```
 
----
-
 ## The AI photo check
 
 When someone submits a photo, a small AI model called
@@ -149,28 +109,39 @@ It still finds dark or blurry road photos harder, which is why it only gives a
 hint and never rejects a report by itself. The full evaluation and how to
 re-run it are in [evaluation/README.md](evaluation/README.md).
 
----
-
 ## How it fits together
 
 ```mermaid
 flowchart LR
     U[Browser] --> W[Website<br/>React on Vercel]
     W -- "/api" --> S[API<br/>Express on Render]
-    S --> DB[(MongoDB Atlas)]
+    S --> DB[(MongoDB Atlas<br/>cloud database)]
     S --> C[Cloudinary<br/>photos]
     S --> AI[AI photo check<br/>CLIP on Cloud Run]
     S --> M[Gmail<br/>emails]
 ```
 
+**The database is in the cloud.** All reports and staff accounts are stored
+in a **MongoDB Atlas** database online, not on your computer. You don't need
+to install MongoDB to run the project. The API connects to Atlas over the
+internet using the `MONGODB_URI` setting. Photos are stored online the same
+way, in Cloudinary.
+
+This also means the live website and a copy running on your computer share
+the same data. A report you make on one shows up on the other.
+
+## What it's built with
+
 | Part | Tech | Folder |
 | --- | --- | --- |
 | Website (frontend) | React, Vite, Tailwind CSS, React Router | `client/` |
 | API (backend) | Node.js, Express, Mongoose | `server/` |
-| Database | MongoDB Atlas (in the cloud) | n/a |
-| Photo storage | Cloudinary | n/a |
+| Database | MongoDB Atlas (cloud) | n/a |
+| Photo storage | Cloudinary (cloud) | n/a |
 | AI photo check | Python, FastAPI, CLIP (`openai/clip-vit-base-patch32`) | `classifier/` |
 | Maps | Leaflet with OpenStreetMap | n/a |
+
+## Folder layout
 
 ```
 .
@@ -181,41 +152,114 @@ flowchart LR
 └── evaluation/    my thesis evaluation: app test reports + the AI photo check test
 ```
 
+## Privacy notes
+
+- Citizens don't need an account. Their email is only used to send updates.
+- Faces and number plates can be blacked out by staff before a photo is shown
+  publicly.
+- The raw AI score is saved for my evaluation, but it is never shown on any
+  page or returned by the API.
+
 ---
 
-## Run it from GitHub
+# Running it yourself
 
-These steps are for running it from a GitHub clone. If you have the submitted
-zip, use the [Quick start](#quick-start-for-markers) above instead.
+The easiest way to see the project is the [live website](https://merosadak-an.vercel.app/).
+Nothing needs installing. If you want to run it on your own computer, follow
+the steps below.
+
+## Before you start
+
+You need:
+
+- [Node.js](https://nodejs.org/) version 20.19 or newer (the "LTS" download
+  is fine). Check it with `node -v`.
+- An internet connection, because the database (MongoDB Atlas) and photo
+  storage (Cloudinary) are online.
+
+You **don't** need to install MongoDB. The commands below are the same on
+Windows, macOS and Linux.
+
+There are two ways to get the code:
+
+| | Option A: submitted zip | Option B: GitHub |
+| --- | --- | --- |
+| Who it's for | Markers and my supervisor | Anyone else |
+| Settings file (`server/.env`) | Already included | You make it yourself |
+| Database | Connects to my MongoDB Atlas database | Your own free MongoDB Atlas database |
+
+## Option A: from the submitted zip
+
+1. Download the zip and unzip it.
+2. The settings file `server/.env` is already inside, so there is nothing to
+   set up. It connects to my MongoDB Atlas database and Cloudinary account.
+3. Open a terminal in the unzipped folder and start the API:
+
+   ```bash
+   cd server
+   npm install
+   npm run dev
+   ```
+
+   Leave it running. It should say it is listening on port 5050 and connected
+   to MongoDB.
+
+4. Open a **second** terminal in the same folder and start the website:
+
+   ```bash
+   cd client
+   npm install
+   npm run dev
+   ```
+
+5. Go to <http://localhost:5173> in your browser.
+
+The first `npm install` takes a few minutes. The zip copy doesn't send real
+emails: reset codes and report updates are printed in the API terminal
+instead.
+
+## Option B: from GitHub
+
+### 1. Get the code
+
+Clone it with git:
 
 ```bash
 git clone https://github.com/laxmantrades/-A-Web-Based-System-for-Reporting-and-Tracking-Street-Level-Infrastructure-Issues-in-Nepali-Communes.git MeroSadak
 cd MeroSadak
 ```
 
-### 1. Things you need first
+Or on the GitHub page press **Code → Download ZIP** and unzip it. Either way
+you get the same files.
 
-- [Node.js](https://nodejs.org/) 20.19+ (or 22.12+)
-- A free [MongoDB Atlas](https://www.mongodb.com/atlas) database
-- A free [Cloudinary](https://cloudinary.com/) account (this is where photos
-  are saved)
+### 2. Make your own cloud database and photo storage
 
-### 2. Make the settings file (`.env`)
+The GitHub copy has no settings file, so you need your own free accounts:
 
-The API reads its passwords and keys from a file called `server/.env`. This
-file is **not** in the GitHub repo (it is git-ignored) because it holds real
-secrets, so after cloning you have to make it yourself.
+- **MongoDB Atlas** (database): sign up at <https://www.mongodb.com/atlas>,
+  create a free cluster, add a database user, and in **Network Access** allow
+  your IP address. Then press **Connect → Drivers** and copy the connection
+  string. It looks like
+  `mongodb+srv://<user>:<password>@<cluster>.mongodb.net/merosadak`.
+- **Cloudinary** (photos): sign up at <https://cloudinary.com/> and copy the
+  "API environment variable" from **Settings → API Keys**. It looks like
+  `cloudinary://<api_key>:<api_secret>@<cloud_name>`.
+
+### 3. Make the settings file (`server/.env`)
+
+The API reads its passwords and keys from `server/.env`. This file is **not**
+on GitHub (it is git-ignored) because it holds real secrets.
 
 Create `server/.env` and fill in your own values:
 
 ```bash
 # Required
 PORT=5050
-MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>/merosadak
+MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/merosadak
 CLOUDINARY_URL=cloudinary://<api_key>:<api_secret>@<cloud_name>
 CLIENT_ORIGIN=http://localhost:5173
 
-# Optional: the AI photo check (see step 3). Leave out to use a made-up result.
+# Optional: the AI photo check. Leave out to use a made-up result.
 CLASSIFIER_URL=http://localhost:8000/classify
 
 # Optional: for sending real emails (otherwise emails are just printed in the logs)
@@ -238,16 +282,15 @@ A few rules for the file:
 - Put quotes around a value only if it has spaces in it, like `MAIL_FROM`.
 - Never commit `.env` or paste it into an issue or chat. Before you push,
   `git status` should not list it.
-- If you change `.env`, restart the API (`npm run dev`) so it picks up the
-  new values.
+- If you change `.env`, restart the API so it picks up the new values.
 
 The website (`client/`) does not need a `.env`. In development it sends
 `/api` requests to `http://localhost:5050`. If your API runs somewhere else,
 start it with `API_TARGET=<url> npm run dev`.
 
-### 3. Start everything
+### 4. Start it
 
-Open two terminals:
+Same as Option A, in two terminals:
 
 ```bash
 # terminal 1: the API
@@ -261,9 +304,23 @@ npm install
 npm run dev
 ```
 
-Without the AI service running, the API uses a made-up AI result while you're
-developing, so the dashboard still has something to show. To run the real one
-you need Python 3.11. In a third terminal:
+Then go to <http://localhost:5173>. Your database starts empty, so to get
+some example reports run this in the `server` folder:
+
+```bash
+node scripts/seedTrackingDemo.js
+```
+
+To see them, look up `demo@merosadak.local` on the tracking page.
+
+Your new database has no staff accounts, so the staff dashboard won't have a
+login yet.
+
+## Running the AI photo check locally
+
+This is optional for both options. Without it, the API uses a made-up AI
+result so the dashboard still has something to show. To run the real one you
+need Python 3.11. In a third terminal:
 
 ```bash
 cd classifier
@@ -273,11 +330,26 @@ python3.11 -m venv .venv
 .venv/bin/uvicorn app:app --port 8000
 ```
 
+On Windows, use `.venv\Scripts\pip` and `.venv\Scripts\uvicorn` instead of
+`.venv/bin/...`.
+
 Then add `CLASSIFIER_URL=http://localhost:8000/classify` to `server/.env` and
 restart the API. The first start is slow because it downloads the CLIP model
 (about 600 MB). After that it is cached.
 
-### 4. Open it
+## Staff accounts
+
+My database already has two staff accounts:
+
+| Email | Role |
+| --- | --- |
+| `officer@ward.gov.np` | Ward officer |
+| `admin@ward.gov.np` | Admin |
+
+Their passwords are not in this repo. Markers get them with my submission.
+Log in at <http://localhost:5173/officer/login>.
+
+## Useful addresses
 
 | What | Where |
 | --- | --- |
@@ -286,30 +358,19 @@ restart the API. The first start is slow because it downloads the CLIP model
 | API health check | http://localhost:5050/api/health |
 | AI service health check (if it's running) | http://localhost:8000/health |
 
-### 5. Staff accounts
+## If something goes wrong
 
-The database already has two staff accounts:
-
-| Email | Role |
+| Problem | Fix |
 | --- | --- |
-| `officer@ward.gov.np` | Ward officer |
-| `admin@ward.gov.np` | Admin |
-
-Their passwords are not in this repo. Markers get them with my submission.
-
-If you want some example reports to play with as well:
-
-```bash
-cd server
-node scripts/seedTrackingDemo.js
-```
-
----
+| `npm` or `node` not found | Install Node.js, then open a new terminal |
+| Website loads but shows no reports / errors | Make sure the API terminal is still running |
+| `EADDRINUSE` / port already in use | Close whatever is using port 5050 or 5173, or restart the computer |
+| API says it can't connect to MongoDB | Check your internet connection. Some university networks block MongoDB's port 27017, so try another network. With your own Atlas database (Option B), also check your IP is allowed in **Network Access** |
 
 ## Running the tests
 
 The backend has automated tests written with Jest. They use a temporary
-in-memory database, so they don't touch your real data.
+in-memory database, so they don't touch the real data in Atlas.
 
 ```bash
 cd server
@@ -321,23 +382,11 @@ You can also test the AI photo check live: send it one photo, or re-run the
 whole thesis evaluation against the running classifier. The steps are in
 [evaluation/README.md](evaluation/README.md#running-the-tests-yourself).
 
----
-
 ## Putting it online
 
-The website goes on Vercel and the API on Render (both free), and the AI photo
-check on Google Cloud Run (free tier, needs a billing card). Step-by-step
-guide: [DEPLOY.md](DEPLOY.md).
-
----
-
-## Privacy notes
-
-- Citizens don't need an account. Their email is only used to send updates.
-- Faces and number plates can be blacked out by staff before a photo is shown
-  publicly.
-- The raw AI score is saved for my evaluation, but it is never shown on any
-  page or returned by the API.
+The website goes on Vercel and the API on Render (both free), the AI photo
+check on Google Cloud Run (free tier, needs a billing card), and the database
+stays on MongoDB Atlas. Step-by-step guide: [DEPLOY.md](DEPLOY.md).
 
 ---
 
