@@ -328,9 +328,6 @@ restart the API. The first start is slow because it downloads the CLIP model
 | API health check | <http://localhost:5050/api/health> |
 | AI service health check (if it's running) | <http://localhost:8000/health> |
 
-The API uses port **5050** on your computer instead of 5000, because on a Mac
-port 5000 is often already used by AirPlay.
-
 ### 5. Staff accounts
 
 The database already has two staff accounts:
@@ -380,14 +377,6 @@ Step-by-step guide: **[DEPLOY.md](DEPLOY.md)**.
 
 ---
 
-## 💡 Things I learned
-
-- **Port 5000 on Mac:** it clashed with AirPlay, which is why the API is on
-  5050.
-- **The AI is not perfect:** dark or blurry road photos are harder for it,
-  which is why it only gives a hint and never rejects a report by itself.
-
----
 
 ## 🔒 Privacy notes
 
